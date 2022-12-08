@@ -1,3 +1,45 @@
 Course,Credit Hours,Prerequisite,Corequisite 
-Math 101,4,none,Physics 101
-Ics 104,3,I don’t know,mdre101
+MATH101,4,none,null
+ENGL 101,3,none,null
+PE 101,1,none,null
+ICS 104,3,none,null
+PHYS 101,4,none,null
+IAS 121,2,none,null
+MATH102,4,MATH101,null
+ENGL 102,3,ENG 101,null
+ICS 108,4,ICS 104,null
+PHYS 102,4,PHYS 101,null
+IAS 111,2,none,null
+MATH201,3,MATH102,null
+ISE 291,3,null,null
+SWE 206,3,null,null
+ICS 202,4,null,null
+CHEM 101,4,null,null
+MATH 208,3,MATH102,null
+COE 292,3,null,null
+SWE 216,3,null,null
+ICS 253,3,null,null
+COE 233,3,null,null
+IAS 212,2,null,null
+STAT 319,3,null,null
+ENGL 214,3,ENG102,null
+SWE 316,3,null,null
+ICS 321,3,null,null
+ICS 343,4,null,null
+SWE 363,3,null,null
+CGS 392,1,null,null
+SWE 326,3,null,null
+ICS 344,3,null,null
+SWE 387,3,null,null
+BUS 200,3,null,null
+SWE 399,none,null,null
+ICS/SWE XXX,3,null,null
+ICS/SWE XXX,3,null,null
+SWE 439,3,null,null
+SWE 411,3,null,null
+IAS XXX,2,null,null
+ICS/SWE XXX,3,null,null
+ICS/SWE XXX,3,null,null
+SWE 412,2,null,null
+ICS 433,3,null,null
+GS XXX,3,null,null

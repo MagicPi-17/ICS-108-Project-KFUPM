@@ -1,10 +1,13 @@
 package com.example.termproject;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -29,7 +32,7 @@ public class app extends Application {
         HBox mainPane = new HBox(); // Used this pane to center the content horizantilly
         mainPane.setAlignment(Pos.BASELINE_CENTER);
 
-        Scene scene = new Scene(mainPane, 1400, 740);
+        Scene scene = new Scene(mainPane, 1366, 768);
         stage.setTitle("Term_Project");
         stage.setScene(scene);
         stage.show();
@@ -39,7 +42,7 @@ public class app extends Application {
             mainPane.getChildren().add(degreePlanCoursesPane); //adding the plan courses list to the main pane
         }catch (IOException e) {
             System.out.println("DegreegPlan File not Found");
-        }
+        }     
     }
 
     public GridPane getDataInGridPane(String filePath) throws IOException{ //This method get the data and put them in a gridPane
@@ -80,3 +83,22 @@ public class app extends Application {
         return pane;
     }
 }
+
+
+//Working with Buttons.......
+// Button btn = new Button("Change");
+// ChangeHandlerClass handler1 = new ChangeHandlerClass();
+// btn.setOnAction(handler1);
+// mainPane.getChildren().add(btn);
+
+// class ChangeHandlerClass implements EventHandler<ActionEvent> {
+//     public void handle(ActionEvent e) {
+//         Pane pane = new Pane();
+//         Label l = new Label("new page");
+//         l.setFont(Font.font ("Verdana", 35));
+//         pane.getChildren().add(l);
+//         Scene scene = new Scene(pane, 1400,720);
+//         System.out.println("clicked");
+//         stage.setScene(scene);
+//     }
+// }
