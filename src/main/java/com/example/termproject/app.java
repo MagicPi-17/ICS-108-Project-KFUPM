@@ -38,7 +38,7 @@ public class app extends Application {
             VBox degreePlanCoursesPane = getDegreePlanCoursesPane();
             mainPane.getChildren().add(degreePlanCoursesPane); //adding the plan courses list to the main pane
         }catch (IOException e) {
-            System.out.println("DegreePlan File not Found");
+            System.out.println("DegreegPlan File not Found");
         }
     }
 
