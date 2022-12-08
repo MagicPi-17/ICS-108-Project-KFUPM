@@ -35,7 +35,7 @@ public class app extends Application {
         stage.show();
 
         try {
-            VBox degreePlanCoursesPane = getdegreePlanCoursesPane();
+            VBox degreePlanCoursesPane = getDegreePlanCoursesPane();
             mainPane.getChildren().add(degreePlanCoursesPane); //adding the plan courses list to the main pane
         }catch (IOException e) {
             System.out.println("DegreePlan File not Found");
@@ -43,7 +43,7 @@ public class app extends Application {
     }
 
 
-    public VBox getdegreePlanCoursesPane() throws IOException{
+    public VBox getDegreePlanCoursesPane() throws IOException{
         CSVReader finishedCourses = new CSVReader("src/main/java/com/example/termproject/data/DegreePlan.csv");
         String[][] degreePlanDataArray = finishedCourses.readTo2DArray();
         GridPane planCoursesPane = new GridPane();
