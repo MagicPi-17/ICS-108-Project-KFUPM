@@ -42,29 +42,37 @@ public class app extends Application {
         }
     }
 
-
-    public VBox getDegreePlanCoursesPane() throws IOException{
-        CSVReader finishedCourses = new CSVReader("src/main/java/com/example/termproject/data/DegreePlan.csv");
+    public GridPane getDataInGridPane(String filePath) throws IOException{ //This method get the data and put them in a gridPane
+        CSVReader finishedCourses = new CSVReader(filePath);
         String[][] degreePlanDataArray = finishedCourses.readTo2DArray();
-        GridPane planCoursesPane = new GridPane();
+        GridPane grid = new GridPane();
         for (int i = 0; i < degreePlanDataArray.length; i++) {
             for (int j = 0; j < degreePlanDataArray[0].length; j++) {
-                Label courseInfo = new Label(degreePlanDataArray[i][j] + "             ");
-                courseInfo.setFont(Font.font ("Verdana", 16));
-                courseInfo.setPadding(new Insets(10, 0, 0, 0));
-                planCoursesPane.add(courseInfo, j, i);
+                Label info = new Label(degreePlanDataArray[i][j] + "             ");
+                info.setFont(Font.font ("Verdana", 16));
+                info.setPadding(new Insets(10, 0, 0, 0));
+                HBox infoPane = new HBox(); //To the data in their boxes
+                infoPane.getChildren().add(info);
+                infoPane.setAlignment(Pos.BASELINE_CENTER);
+                grid.add(infoPane, j, i);
             }
         }
-        
+        return grid;
+    }
+
+
+    public VBox getDegreePlanCoursesPane() throws IOException{
         VBox pane = new VBox(); //The pane is placing its children panes vertically
         pane.setSpacing(50);
 
         HBox degreePlanTitlePane = new HBox(); //Title
         degreePlanTitlePane.setAlignment(Pos.BASELINE_CENTER);
-        degreePlanTitlePane.setPadding(new Insets(50,0,30,0));
+        degreePlanTitlePane.setPadding(new Insets(50,0,15,0));
         Label degreePlanTitle = new Label("Degree Plan Courses");
         degreePlanTitle.setFont(Font.font ("Verdana", 20));
         degreePlanTitlePane.getChildren().add(degreePlanTitle);
+
+        GridPane planCoursesPane = getDataInGridPane("src/main/java/com/example/termproject/data/DegreePlan.csv");
 
         pane.getChildren().add(degreePlanTitlePane); //adding the title to the pane 
         pane.getChildren().add(planCoursesPane); //adding the list of plan courses to the pane
