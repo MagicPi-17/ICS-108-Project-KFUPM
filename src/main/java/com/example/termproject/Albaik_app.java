@@ -50,6 +50,8 @@ public class Albaik_app extends Application {
 
     }
 
+
+    // create VBox that contain buttons that switches to another pages
     public VBox createButtonsBar() {
         VBox vBox = new VBox(10);
         vBox.setSpacing(10);
@@ -62,6 +64,7 @@ public class Albaik_app extends Application {
         return vBox;
     }
 
+    // home page design
     public void setHomePage() {
         VBox vBoxBar = createButtonsBar();
         VBox vboxText = new VBox(10);
@@ -97,7 +100,9 @@ public class Albaik_app extends Application {
         Scene scene = new Scene(borderPane, screenWidth, screenHeight);
         stage.setScene(scene);
     }
-    public void switchToScene1() {
+
+    // example page design
+    public void setScene1() {
         HBox hBox = new HBox(10);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(15, 15, 15, 15));
@@ -107,11 +112,14 @@ public class Albaik_app extends Application {
         btSchedule.setOnAction(new ButtonHandler());
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(hBox);
+        borderPane.setLeft(createButtonsBar());
         Scene scene = new Scene(borderPane, screenWidth, screenHeight);
         stage.setScene(scene);
 
     }
-    public void switchToScene2() {
+
+    // example page design
+    public void setScene2() {
         HBox hBox = new HBox(10);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(15, 15, 15, 15));
@@ -121,21 +129,29 @@ public class Albaik_app extends Application {
         btBasket.setOnAction(new ButtonHandler());
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(hBox);
-        Scene scene = new Scene(borderPane, 960, 540);
+        borderPane.setLeft(createButtonsBar());
+        Scene scene = new Scene(borderPane, screenWidth, screenHeight);
         stage.setScene(scene);
     }
 
 
-
+    // using bar button to switch between pages
     public class ButtonHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent actionEvent) {
-            if (actionEvent.getSource() == btSchedule) {
-                switchToScene2();
+            if (actionEvent.getSource() == btHome) {
+                setHomePage();
+            }
+
+            else if (actionEvent.getSource() == btStart) {
+                setHomePage();
+            }
+            else if (actionEvent.getSource() == btSchedule) {
+                setScene2();
 
             }
             else if (actionEvent.getSource() == btBasket) {
-                switchToScene1();
+                setScene1();
 
             }
         }
