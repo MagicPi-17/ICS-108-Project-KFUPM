@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Albaik_app extends Application {
     protected final Button btSchedule = new Button("Schedule");
@@ -108,26 +109,36 @@ public class Albaik_app extends Application {
 
     public void setFinishedCoursesPage() {
         VBox vBoxBar = createButtonsBar();
-        VBox vBoxCourses = new VBox(10);
-        vBoxCourses.setSpacing(10);
-        vBoxCourses.setPadding(new Insets(15, 15, 15, 15));
-        vBoxCourses.setAlignment(Pos.TOP_LEFT);
-
+        HBox columnData = new HBox();
         try {
             Student studentData = DataReader.getFinishedCourse();
+            ArrayList<Integer> termsSorted = studentData.getTermsSorted();
+
+            VBox[] vBoxes = new VBox[termsSorted.size()];
+            for (int row =0; row < termsSorted.size(); row++) {
+                Label text = new Label("Term " + termsSorted.get(row));
+                vBoxes[row] = new VBox(10);
+                vBoxes[row].setSpacing(10);
+                vBoxes[row].setPadding(new Insets(15, 15, 15, 15));
+                vBoxes[row].setAlignment(Pos.TOP_LEFT);
+                vBoxes[row].getChildren().add(text);}
+
             for (int i = 0; i < studentData.getFinishedCourses().size(); i++) {
-                vBoxCourses.getChildren().add(new Label(studentData.getStringFinishedCourse(i)));
+                int term = studentData.getTermOfCourse(i);
+                Label text = new Label(studentData.getStringFinishedCourse(i));
+
+                int termLocationIndex = termsSorted.indexOf(term);
+                vBoxes[termLocationIndex].getChildren().add(new Label(studentData.getStringFinishedCourse(i)));
             }
+
+            for (VBox vBox : vBoxes) { columnData.getChildren().add(vBox);}
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-
-
-
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(vBoxCourses);
+        borderPane.setCenter(columnData);
         borderPane.setLeft(createButtonsBar());
         Scene scene = new Scene(borderPane, screenWidth, screenHeight);
         stage.setScene(scene);

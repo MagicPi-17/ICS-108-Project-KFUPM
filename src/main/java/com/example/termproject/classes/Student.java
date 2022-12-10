@@ -1,11 +1,27 @@
 package com.example.termproject.classes;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Student {
     private ArrayList<FinishedCourse> finishedCourses;
 
     public ArrayList<FinishedCourse> getFinishedCourses() { return finishedCourses;}
+
+    public ArrayList<Integer> getTermsSorted () {
+        ArrayList<Integer> terms = new ArrayList<Integer>();
+
+        finishedCourses.forEach(finishedCourse -> {
+            int term = Integer.parseInt(finishedCourse.getTerm());
+            if (Collections.binarySearch(terms, term) < 0) {
+                terms.add(term);
+            }
+        });
+
+        Collections.sort(terms);
+        return terms;
+    }
     public String getStringFinishedCourse(int index) { return finishedCourses.get(index).toString();}
+    public int getTermOfCourse(int index) { return Integer.parseInt(finishedCourses.get(index).getTerm());}
 
     public void setFinishedCourses(ArrayList<FinishedCourse> finishedCourses) { this.finishedCourses = finishedCourses;}
 
@@ -55,9 +71,7 @@ public class Student {
 
         @Override
         public String toString() {
-            return String.format("%-10s" , course) +
-                    String.format("%10s" , term) +
-                    String.format("%10s" , grade);
+            return String.format("%-8s %2s" , course, grade);
         }
     }
 }
