@@ -1,14 +1,19 @@
 package com.example.termproject.classes;
 import java.util.ArrayList;
 
-class Student {
+public class Student {
     private ArrayList<FinishedCourse> finishedCourses;
 
     public ArrayList<FinishedCourse> getFinishedCourses() { return finishedCourses;}
+    public String getStringFinishedCourse(int index) { return finishedCourses.get(index).toString();}
+
     public void setFinishedCourses(ArrayList<FinishedCourse> finishedCourses) { this.finishedCourses = finishedCourses;}
 
     public void addFinishedCourse(String course, String term, String grade) {
         this.finishedCourses.add(new FinishedCourse(course, term, grade));
+    }
+    public void addFinishedCourse(String[] data) {
+        this.finishedCourses.add(new FinishedCourse(data[0], data[1], data[2]));
     }
 
     public void removeFinishedCourse(String course, String term, String grade) {
@@ -18,26 +23,42 @@ class Student {
         this.finishedCourses.remove(index);
     }
 
-    Student() {
+    public Student() {
         this.finishedCourses = new ArrayList<FinishedCourse>();
     }
     Student(ArrayList<FinishedCourse> finishedCourses) {
         this.finishedCourses = finishedCourses;
     }
-}
 
-class FinishedCourse {
-    private String course;
-    private String term;
-    private String grade;
+    class FinishedCourse {
+        private String course;
+        private String term;
+        private String grade;
 
-    public String getCourse() { return course;}
-    public String getTerm() { return term;}
-    public String getGrade() { return grade;}
+        public String getCourse() {
+            return course;
+        }
 
-    FinishedCourse(String course, String term, String grade){
-        this.course = course;
-        this.term = term;
-        this.grade = grade;
+        public String getTerm() {
+            return term;
+        }
+
+        public String getGrade() {
+            return grade;
+        }
+
+        FinishedCourse(String course, String term, String grade) {
+            this.course = course;
+            this.term = term;
+            this.grade = grade;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%-10s" , course) +
+                    String.format("%10s" , term) +
+                    String.format("%10s" , grade);
+        }
     }
 }
+

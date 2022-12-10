@@ -1,5 +1,7 @@
 package com.example.termproject;
 
+import com.example.termproject.classes.Student;
+import com.example.termproject.readWriteDataClasses.DataReader;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.FileNotFoundException;
 
 public class Albaik_app extends Application {
     protected final Button btSchedule = new Button("Schedule");
@@ -101,6 +105,34 @@ public class Albaik_app extends Application {
         stage.setScene(scene);
     }
 
+
+    public void setFinishedCoursesPage() {
+        VBox vBoxBar = createButtonsBar();
+        VBox vBoxCourses = new VBox(10);
+        vBoxCourses.setSpacing(10);
+        vBoxCourses.setPadding(new Insets(15, 15, 15, 15));
+        vBoxCourses.setAlignment(Pos.TOP_LEFT);
+
+        try {
+            Student studentData = DataReader.getFinishedCourse();
+            for (int i = 0; i < studentData.getFinishedCourses().size(); i++) {
+                vBoxCourses.getChildren().add(new Label(studentData.getStringFinishedCourse(i)));
+            }
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(vBoxCourses);
+        borderPane.setLeft(createButtonsBar());
+        Scene scene = new Scene(borderPane, screenWidth, screenHeight);
+        stage.setScene(scene);
+
+    }
     // example page design
     public void setScene1() {
         HBox hBox = new HBox(10);
@@ -147,7 +179,7 @@ public class Albaik_app extends Application {
                 setHomePage();
             }
             else if (actionEvent.getSource() == btSchedule) {
-                setScene2();
+                setFinishedCoursesPage();
 
             }
             else if (actionEvent.getSource() == btBasket) {
