@@ -52,7 +52,7 @@ public class app extends Application {
         for (int i = 0; i < degreePlanDataArray.length; i++) {
             for (int j = 0; j < degreePlanDataArray[0].length; j++) {
                 Label info = new Label(degreePlanDataArray[i][j] + "             ");
-                info.setFont(Font.font ("Verdana", 16));
+                info.setFont(Font.font ("Verdana", 14));
                 info.setPadding(new Insets(10, 0, 0, 0));
                 HBox infoPane = new HBox(); //To the data in their boxes
                 infoPane.getChildren().add(info);
