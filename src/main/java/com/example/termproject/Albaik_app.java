@@ -1,5 +1,6 @@
 package com.example.termproject;
 
+import com.example.termproject.classes.FinishedCourse;
 import com.example.termproject.classes.Student;
 import com.example.termproject.readWriteDataClasses.DataReader;
 import javafx.application.Application;
@@ -25,6 +26,7 @@ public class Albaik_app extends Application {
     protected final  int screenWidth = 1200;
     protected final  int screenHeight = 900;
     protected   Stage stage;
+    FinishedCourse finishedCourse;
 
 
     @Override // Override the start method in the Application class
@@ -111,7 +113,7 @@ public class Albaik_app extends Application {
         VBox vBoxBar = createButtonsBar();
         HBox columnData = new HBox();
         try {
-            Student studentData = DataReader.getFinishedCourse();
+            Student studentData = DataReader.getStudentFinishedCourse();
             ArrayList<Integer> termsSorted = studentData.getTermsSorted();
 
             VBox[] vBoxes = new VBox[termsSorted.size()];
