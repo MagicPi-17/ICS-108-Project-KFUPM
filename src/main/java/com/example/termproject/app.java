@@ -70,7 +70,6 @@ public class app extends Application {
         filtiredIn2D[0][8] = "Status";
         filtiredIn2D[0][9] = "Waitlist";
         for (int i = 0; i <filtired.size(); i++) {
-            System.out.println(filtired.get(i).toString());
             filtiredIn2D[i + 1][0] = filtired.get(i).getCourse_section();
             filtiredIn2D[i + 1][1] = filtired.get(i).getActivity();
             filtiredIn2D[i + 1][2] = filtired.get(i).getCRN();
