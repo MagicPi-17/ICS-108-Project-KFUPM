@@ -1,5 +1,7 @@
 package com.example.termproject;
 
+import com.example.termproject.classes.Schedule;
+import com.example.termproject.readWriteDataClasses.DataReader;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -53,12 +55,38 @@ public class app extends Application {
     }
 
     public GridPane getDataInGridPane(String filePath) throws IOException{ //This method get the data and put them in a gridPane
-        CSVReader originalData = new CSVReader(filePath);
-        String[][] dataArray = originalData.readTo2DArray();
+        Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
+        // Converting the List to 2DArray
+        ArrayList<Section> filtired = schedule.getAllowedSections();
+        String[][] filtiredIn2D = new String[filtired.size() + 1][10];
+        filtiredIn2D[0][0] = "Course-Sec";
+        filtiredIn2D[0][1] = "Activity";
+        filtiredIn2D[0][2] = "CRN";
+        filtiredIn2D[0][3] = "Course Name";
+        filtiredIn2D[0][4] = "Instructor";
+        filtiredIn2D[0][5] = "Day";
+        filtiredIn2D[0][6] = "Time";
+        filtiredIn2D[0][7] = "Location";
+        filtiredIn2D[0][8] = "Status";
+        filtiredIn2D[0][9] = "Waitlist";
+        for (int i = 0; i <filtired.size(); i++) {
+            System.out.println(filtired.get(i).toString());
+            filtiredIn2D[i + 1][0] = filtired.get(i).getCourse_section();
+            filtiredIn2D[i + 1][1] = filtired.get(i).getActivity();
+            filtiredIn2D[i + 1][2] = filtired.get(i).getCRN();
+            filtiredIn2D[i + 1][3] = filtired.get(i).getCourseName();
+            filtiredIn2D[i + 1][4] = filtired.get(i).getInstructor();
+            filtiredIn2D[i + 1][5] = filtired.get(i).getDay();
+            filtiredIn2D[i + 1][6] = filtired.get(i).getTime();
+            filtiredIn2D[i + 1][7] = filtired.get(i).getLocation();
+            filtiredIn2D[i + 1][8] = filtired.get(i).getStatus();
+            filtiredIn2D[i + 1][9] = filtired.get(i).getWaitlist();
+        }
+
         GridPane grid = new GridPane();
-        for (int i = 0; i < dataArray.length; i++) {
-            for (int j = 0; j < dataArray[i].length; j++) {
-                Label info = new Label(dataArray[i][j] + "          ");
+        for (int i = 0; i < filtiredIn2D.length; i++) {
+            for (int j = 0; j < filtiredIn2D[i].length; j++) {
+                Label info = new Label(filtiredIn2D[i][j] + "       ");
                 info.setFont(Font.font ("Verdana", 12));
                 info.setPadding(new Insets(15, 0, 0, 0));
                 HBox infoPane = new HBox(); //To the data in their boxes
@@ -73,7 +101,7 @@ public class app extends Application {
                 addBtn.setId(Integer.toString(i)); //Give each button its id
                 AddHandlerClass handler1 = new AddHandlerClass();
                 addBtn.setOnAction(handler1);
-                grid.add(addBtn, dataArray[i].length, i);
+                grid.add(addBtn, filtiredIn2D[i].length, i);
                 addButtons.add(addBtn); //Adding the button to the public list of buttons
 
                 Button removeBtn = new Button("Remove"); 
@@ -82,7 +110,7 @@ public class app extends Application {
                 RemoveHandlerClass handler2 = new RemoveHandlerClass();
                 removeBtn.setOnAction(handler2);
                 removeBtn.setDisable(true);
-                grid.add(removeBtn, dataArray[i].length + 2, i);
+                grid.add(removeBtn, filtiredIn2D[i].length + 2, i);
                 removeButtons.add(removeBtn); //Adding the button to the public list of buttons
             }
         }
