@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -130,7 +132,16 @@ public class Albaik_app extends Application {
                 Label text = new Label(studentData.getStringFinishedCourse(i));
 
                 int termLocationIndex = termsSorted.indexOf(term);
-                vBoxes[termLocationIndex].getChildren().add(new Label(studentData.getStringFinishedCourse(i)));
+
+                StackPane stack = new StackPane();
+                Rectangle rectangle = new Rectangle();
+                rectangle.setHeight(60);
+                rectangle.setWidth(100);
+                rectangle.setStroke(Color.BLACK);
+                rectangle.setFill(Color.WHITE);
+                stack.getChildren().addAll(rectangle, text);
+
+                vBoxes[termLocationIndex].getChildren().add(stack);
             }
 
             for (VBox vBox : vBoxes) { columnData.getChildren().add(vBox);}

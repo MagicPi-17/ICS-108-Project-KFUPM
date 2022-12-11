@@ -10,8 +10,6 @@ import java.util.Collections;
 public class Schedule {
 
     public static void main(String[] args) throws FileNotFoundException {
-        String[] test = {"1", "2", "3"};
-        System.out.println(Arrays.binarySearch(test, "1"));
         Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
         System.out.println(schedule.term);
         for (Section section : schedule.getAllowedSections()) {
@@ -43,12 +41,14 @@ public class Schedule {
 
         String courseName, coursePrerequisite, courseSecName;
 
+
+
         for(Course course: degreePlanCourses) {
             coursePrerequisite = course.getPrerequisite();
             courseName = course.getCourse();
 
             if (Arrays.binarySearch(finishedCourses, courseName) < 0) {
-                if (coursePrerequisite.equals("none") ||Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0){
+                if (coursePrerequisite.equals("none") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0){
                     allowedCourses.add(courseName);
                 }
             }
@@ -64,6 +64,8 @@ public class Schedule {
                 }
 
             }
+
+        Collections.sort(allowedCourses);
         }
 
 
