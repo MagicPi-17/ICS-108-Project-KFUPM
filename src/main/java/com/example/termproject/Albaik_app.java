@@ -7,10 +7,12 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Effect;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -158,18 +160,46 @@ public class Albaik_app extends Application {
 
     }
     // example page design
-    public void setScene1() {
-        HBox hBox = new HBox(10);
-        hBox.setSpacing(10);
-        hBox.setPadding(new Insets(15, 15, 15, 15));
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().add(btSchedule);
 
-        btSchedule.setOnAction(new ButtonHandler());
-        BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(hBox);
-        borderPane.setLeft(createButtonsBar());
-        Scene scene = new Scene(borderPane, screenWidth, screenHeight);
+    public StackPane createShapeWithText(Double height, Double width,Color color, String text) {
+        StackPane stackPane = new StackPane();
+
+        Rectangle rectangle = new Rectangle(width, height, color); rectangle.setStroke(Color.BLACK);
+        Label word = new Label(text);
+        word.setFont(Font.font(20));
+        stackPane.getChildren().addAll(rectangle, word);
+
+        return stackPane;
+    }
+    public void setSchedule() {
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
+        String[] times = {"","7 am", "8 pm", "9 am", "10 am", "11 am", "12 pm",
+                        "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"};
+
+        HBox hBox = new HBox();
+
+        VBox timeBoxes = new VBox();
+        for(String time : times) {
+            timeBoxes.getChildren().add(createShapeWithText(70.0, 150.0, Color.LIGHTGRAY,time));
+        }
+
+        for(int i = 0; i < 5; i++) {
+           FlowPane flowPane = new FlowPane();
+           flowPane.setOrientation(Orientation.VERTICAL);
+           flowPane.setVgap(0);
+           flowPane.getChildren().add(createShapeWithText(70.0, 150.0, Color.LIGHTCORAL,days[i]));
+           flowPane.getChildren().add(createShapeWithText(70.0, 150.0, Color.LIGHTGRAY,"empty"));
+           flowPane.getChildren().add(createShapeWithText(210.0 - 35, 150.0, Color.LIGHTGREEN,"class time"));
+           hBox.getChildren().add(flowPane);
+
+        }
+
+        BorderPane borderPaneMain = new BorderPane();
+        borderPaneMain.setLeft(timeBoxes);
+        borderPaneMain.setCenter(hBox);
+
+        borderPaneMain.setRight(createButtonsBar());
+        Scene scene = new Scene(borderPaneMain, screenWidth, screenHeight);
         stage.setScene(scene);
 
     }
@@ -179,13 +209,12 @@ public class Albaik_app extends Application {
         HBox hBox = new HBox(10);
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(15, 15, 15, 15));
-        hBox.setAlignment(Pos.CENTER);
-        hBox.getChildren().add(btBasket);
+        hBox.setAlignment(Pos.TOP_LEFT);
 
         btBasket.setOnAction(new ButtonHandler());
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(hBox);
-        borderPane.setLeft(createButtonsBar());
+        borderPane.setRight(createButtonsBar());
         Scene scene = new Scene(borderPane, screenWidth, screenHeight);
         stage.setScene(scene);
     }
@@ -203,11 +232,11 @@ public class Albaik_app extends Application {
                 setHomePage();
             }
             else if (actionEvent.getSource() == btSchedule) {
-                setFinishedCoursesPage();
-
+                setSchedule();
             }
             else if (actionEvent.getSource() == btBasket) {
-                setScene1();
+                setFinishedCoursesPage();
+
 
             }
         }

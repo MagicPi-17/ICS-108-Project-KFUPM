@@ -160,8 +160,7 @@ public class app extends Application {
         private ArrayList<Section> filtrated;
         FiltratedSections() {
             try {
-                Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
-                ArrayList<Section> filtired = schedule.getAllowedSections();
+                ArrayList<Section> filtired = DataReader.getAllowedSections();
                 this.filtrated = filtired;
             } catch (FileNotFoundException e) {
                 System.out.println("ERROR IN GETTING FILTIRED SECTIONS");

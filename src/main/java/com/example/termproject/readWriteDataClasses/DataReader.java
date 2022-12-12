@@ -7,6 +7,8 @@ import com.example.termproject.classes.Student;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class DataReader {
 
@@ -15,9 +17,9 @@ public class DataReader {
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/FinishedCourses.csv");
         for (String[] finishedCourseData : cvsReader.readTo2DArray()) {
             newStudent.addFinishedCourse(finishedCourseData);
-            }
-        return newStudent;
         }
+        return newStudent;
+    }
 
     public static ArrayList<Section> getCourseOffering() throws FileNotFoundException {
         ArrayList<Section> sections = new ArrayList<Section>();
@@ -39,13 +41,58 @@ public class DataReader {
         return degreePlanCourses;
     }
 
+    // this method return all the sections that the student can add
+    public static ArrayList<Section> getAllowedSections() throws FileNotFoundException {
+        ArrayList<Section> allowedSections = new ArrayList<Section>();
+
+        Student student = DataReader.getStudentFinishedCourse();
+        String[] finishedCourses = student.getFinishedCoursesNames();
+        Arrays.sort(finishedCourses);
+
+        ArrayList<Section> sections = DataReader.getCourseOffering();
+
+        ArrayList<Course> degreePlanCourses = DataReader.getDegreePlanCourses();
+        Collections.sort(degreePlanCourses);
+
+        ArrayList<String> allowedCourses = new ArrayList<String>();
+
+        String courseName, coursePrerequisite, courseSecName;
+
+
+        for (Course course : degreePlanCourses) {
+            coursePrerequisite = course.getPrerequisite();
+            courseName = course.getCourse();
+
+            if (Arrays.binarySearch(finishedCourses, courseName) < 0) {
+                if (coursePrerequisite.equals("none") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0) {
+                    allowedCourses.add(courseName);
+                }
+            }
+
+        }
+
+        Collections.sort(allowedCourses);
+        for (Section section : sections) {
+            courseSecName = section.getCourse_section().split("-")[0];
+            if (Collections.binarySearch(allowedCourses, courseSecName) >= 0) {
+                allowedSections.add(section);
+            }
+        }
+        return  allowedSections;
+    }
+
+
 
     public static void main(String[] args) {
         try {
-            ArrayList<Section> sections = getCourseOffering();
-            System.out.println(sections.get(0).toString());
+            ArrayList<Section> sections = getAllowedSections();
+            for(Section section : sections) {
+                System.out.println(section.toString());
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
 }
+

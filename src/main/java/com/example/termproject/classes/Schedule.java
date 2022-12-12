@@ -8,65 +8,24 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Schedule {
-
-    public static void main(String[] args) throws FileNotFoundException {
-        Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
-        System.out.println(schedule.term);
-        for (Section section : schedule.getAllowedSections()) {
-            System.out.println(section.toString());
-        }
-    }
-    ArrayList<Section> sections;
-    ArrayList<Section> allowedSections = new ArrayList<Section>();
-    Student student;
+    ArrayList<Section> sections_basket;
     String term;
 
-    public Schedule(ArrayList<Section> sections, Student student, String term) throws FileNotFoundException {
-        this.sections = sections;
-        this.student = student;
-        createAllowedSections();
+    public Schedule() {
+        sections_basket = new ArrayList<Section>();
+        term = "";}
+
+    public ArrayList<Section> getSections_basket() {return sections_basket;}
+    public String getTerm() {return term;}
+    public void setSections_basket(ArrayList<Section> sections_basket) {this.sections_basket = sections_basket;}
+    public void setTerm(String term) {this.term = term;}
+
+    public Schedule(ArrayList<Section> sections_basket, String term)  {
+        this.sections_basket = sections_basket;
         this.term = term;
     }
 
-    public ArrayList<Section> getAllowedSections() {return allowedSections;}
 
-    public void createAllowedSections() throws FileNotFoundException {
-        String[] finishedCourses = student.getFinishedCoursesNames();
-        Arrays.sort(finishedCourses);
-
-        ArrayList<Course> degreePlanCourses = DataReader.getDegreePlanCourses();
-        Collections.sort(degreePlanCourses);
-
-        ArrayList<String> allowedCourses = new ArrayList<String>();
-
-        String courseName, coursePrerequisite, courseSecName;
-
-
-
-        for(Course course: degreePlanCourses) {
-            coursePrerequisite = course.getPrerequisite();
-            courseName = course.getCourse();
-
-            if (Arrays.binarySearch(finishedCourses, courseName) < 0) {
-                if (coursePrerequisite.equals("none") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0){
-                    allowedCourses.add(courseName);
-                }
-            }
-
-        }
-
-        Collections.sort(allowedCourses);
-
-        for(Section section : sections) {
-            courseSecName = section.getCourse_section().split("-")[0];
-            if (Collections.binarySearch(allowedCourses, courseSecName) >= 0) {
-                allowedSections.add(section);
-                }
-
-            }
-
-        Collections.sort(allowedCourses);
-        }
 
 
 }
