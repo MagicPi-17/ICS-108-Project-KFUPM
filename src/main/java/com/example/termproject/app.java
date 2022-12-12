@@ -11,12 +11,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -42,23 +38,21 @@ public class app extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        HBox mainPane = new HBox(); // Used this pane to center the content horizantilly
-        mainPane.setAlignment(Pos.BASELINE_CENTER);
+        try {
+        HBox courseOfferingPane = getCourseOfferingPane("Course Offering");
 
-        Scene scene = new Scene(mainPane, 1366, 768);
+        Scene scene = new Scene(courseOfferingPane, 1920, 1000);
         stage.setTitle("Term_Project");
         stage.setScene(scene);
         stage.show();
 
-        try {
-            VBox degreePlanCoursesPane = getDataTitleInPane("src/main/java/com/example/termproject/data/CourseOffering.csv", "Course Offering");
-            mainPane.getChildren().add(degreePlanCoursesPane); //adding the plan courses list to the main pane
+
         }catch (IOException e) {
-            System.out.println("File not Found");
+            System.out.println("Error!!\n" + e.getMessage());
         }     
     }
 
-    public GridPane getDataInGridPane(String filePath) throws IOException{ //This method get the data and put them in a gridPane
+    public GridPane getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
         // Converting the List to 2DArray
         ArrayList<Section> filtired = filtrated.getFiltratedSections();
         String[][] filtiredIn2D = new String[filtired.size() + 1][10];
@@ -88,8 +82,8 @@ public class app extends Application {
         GridPane grid = new GridPane();
         for (int i = 0; i < filtiredIn2D.length; i++) {
             for (int j = 0; j < filtiredIn2D[i].length; j++) {
-                Label info = new Label(filtiredIn2D[i][j] + "       ");
-                info.setFont(Font.font ("Verdana", 12));
+                Label info = new Label( "       " + filtiredIn2D[i][j] + "    ");
+                info.setFont(Font.font ("Verdana", 14));
                 info.setPadding(new Insets(15, 0, 0, 0));
                 HBox infoPane = new HBox(); //To the data in their boxes
                 infoPane.getChildren().add(info);
@@ -103,15 +97,19 @@ public class app extends Application {
                 addBtn.setId(Integer.toString(i)); //Give each button its id
                 AddHandlerClass handler1 = new AddHandlerClass();
                 addBtn.setOnAction(handler1);
+                addBtn.setPrefWidth(70);
+                addBtn.setFont((Font.font ("Verdana", 14)));
                 grid.add(addBtn, filtiredIn2D[i].length, i);
                 addButtons.add(addBtn); //Adding the button to the public list of buttons
 
-                Button removeBtn = new Button("Remove"); 
+                Button removeBtn = new Button("Remove");
                 removeBtn.setPadding(new Insets(15, 15, 15, 15));
                 removeBtn.setId(Integer.toString(i)); //Give each button its id
                 RemoveHandlerClass handler2 = new RemoveHandlerClass();
                 removeBtn.setOnAction(handler2);
                 removeBtn.setDisable(true);
+                removeBtn.setPrefWidth(100);
+                removeBtn.setFont((Font.font ("Verdana", 15)));
                 grid.add(removeBtn, filtiredIn2D[i].length + 2, i);
                 removeButtons.add(removeBtn); //Adding the button to the public list of buttons
             }
@@ -120,8 +118,12 @@ public class app extends Application {
     }
 
 
-    public VBox getDataTitleInPane(String path, String title) throws IOException{
+    public HBox getCourseOfferingPane(String title) throws IOException{
+        HBox finalPane = new HBox();
+        HBox courseOfferingPane = new HBox();
+        courseOfferingPane.setPrefWidth(1720);
         VBox pane = new VBox(); //The pane is placing its children panes vertically
+        pane.setPadding(new Insets(0,40,0,0));
         pane.setSpacing(50);
 
         HBox degreePlanTitlePane = new HBox(); //Title
@@ -131,12 +133,33 @@ public class app extends Application {
         degreePlanTitle.setFont(Font.font ("Verdana", 20));
         degreePlanTitlePane.getChildren().add(degreePlanTitle);
 
-        GridPane planCoursesPane = getDataInGridPane(path);
+        GridPane planCoursesPane = getDataInGridPane();
 
         pane.getChildren().add(degreePlanTitlePane); //adding the title to the pane 
         pane.getChildren().add(planCoursesPane); //adding the list of plan courses to the pane
 
-        return pane;
+        //Buttons Section
+        VBox buttonsSection = new VBox();
+        buttonsSection.setPrefWidth(200);
+        Button nextButton = new Button("Next");
+        Button myPlanButton = new Button("My Plan");
+        buttonsSection.getChildren().add(nextButton);
+        buttonsSection.getChildren().add(myPlanButton);
+        finalPane.getChildren().add(buttonsSection);
+        nextButton.setPrefSize(200, 150);
+        myPlanButton.setPrefSize(200,150);
+        nextButton.setFont((Font.font ("Verdana", 18)));
+        myPlanButton.setFont((Font.font ("Verdana", 18)));
+
+        ScrollPane scrollPane = new ScrollPane(pane); //Right section(COURSE OFFERING)
+        courseOfferingPane.getChildren().add(scrollPane);
+        //Fit the scrollpane in parent pane
+        scrollPane.prefWidthProperty().bind(courseOfferingPane.widthProperty());
+        scrollPane.prefHeightProperty().bind(courseOfferingPane.heightProperty());
+
+        finalPane.getChildren().add(courseOfferingPane);
+
+        return finalPane;
     }
 
     class Basket {
@@ -191,7 +214,6 @@ public class app extends Application {
 
             System.out.println("Remove " + numberButton.getId()); //Remove the section from the basket
             myBasket.removeSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
-            System.out.println(myBasket.getSections());
         }
     }
 }
