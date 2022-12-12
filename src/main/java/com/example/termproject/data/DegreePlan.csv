@@ -1,28 +1,28 @@
 Course,Credit Hours,Prerequisite,Corequisite 
-MATH 101,4,none,null
+MATH101,4,none,null
 ENGL101,3,none,null
 PE  101,1,none,null
 ICS 104,3,none,null
 PHYS101,4,none,null
 IAS 121,2,none,null
-MATH 102,4,MATH101,null
-ENGL 102,3,ENG 101,null
+MATH102,4,MATH101,null
+ENGL102,3,ENG 101,null
 ICS 108,4,ICS 104,null
-PHYS 102,4,PHYS 101,null
+PHYS102,4,PHYS 101,null
 IAS 111,2,none,null
-MATH 201,3,MATH102,null
+MATH201,3,MATH102,null
 ISE 291,3,null,null
 SWE 206,3,null,null
 ICS 202,4,null,null
 CHEM101,4,null,null
-MATH 208,3,MATH102,null
+MATH208,3,MATH102,null
 COE 292,3,null,null
 SWE 216,3,null,null
 ICS 253,3,null,null
 COE 233,3,null,null
 IAS 212,2,null,null
-STAT 319,3,null,null
-ENGL 214,3,ENG102,null
+STAT319,3,null,null
+ENGL214,3,ENG102,null
 SWE 316,3,null,null
 ICS 321,3,null,null
 ICS 343,4,null,null
