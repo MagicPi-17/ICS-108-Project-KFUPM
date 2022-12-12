@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,6 +31,9 @@ import com.example.termproject.classes.Section;
 public class app extends Application {
     public ArrayList<Button> addButtons = new ArrayList<>();
     public ArrayList<Button> removeButtons = new ArrayList<>();
+    public Basket myBasket = new Basket();
+    public FiltratedSections filtrated = new FiltratedSections();
+
 
 
     public static void main(String[] args) {
@@ -55,9 +59,8 @@ public class app extends Application {
     }
 
     public GridPane getDataInGridPane(String filePath) throws IOException{ //This method get the data and put them in a gridPane
-        Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
         // Converting the List to 2DArray
-        ArrayList<Section> filtired = schedule.getAllowedSections();
+        ArrayList<Section> filtired = filtrated.getFiltratedSections();
         String[][] filtiredIn2D = new String[filtired.size() + 1][10];
         filtiredIn2D[0][0] = "Course-Sec";
         filtiredIn2D[0][1] = "Activity";
@@ -142,11 +145,33 @@ public class app extends Application {
         public void addSection(Section section) {
             sections.add(section);
         }
-        
+
+        public void removeSection(Section section) {
+            sections.remove(section);
+        }
+
+
         public ArrayList<Section> getSections() {
             return this.sections;
         }
     }
+
+    class FiltratedSections {
+        private ArrayList<Section> filtrated;
+        FiltratedSections() {
+            try {
+                Schedule schedule = new Schedule(DataReader.getCourseOffering(), DataReader.getStudentFinishedCourse(),"222");
+                ArrayList<Section> filtired = schedule.getAllowedSections();
+                this.filtrated = filtired;
+            } catch (FileNotFoundException e) {
+                System.out.println("ERROR IN GETTING FILTIRED SECTIONS");
+            }
+        }
+
+        public ArrayList<Section> getFiltratedSections() {
+            return this.filtrated;
+    }
+}
 
     class AddHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
@@ -155,6 +180,7 @@ public class app extends Application {
             (removeButtons.get(Integer.parseInt(numberButton.getId()) - 1)).setDisable(false); //Enabling the remove
 
             System.out.println("ADD " + numberButton.getId()); //Add the section to the basket
+            myBasket.addSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
         }
     }
 
@@ -165,6 +191,8 @@ public class app extends Application {
             (addButtons.get(Integer.parseInt(numberButton.getId()) - 1)).setDisable(false); //Enabling the add
 
             System.out.println("Remove " + numberButton.getId()); //Remove the section from the basket
+            myBasket.removeSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
+            System.out.println(myBasket.getSections());
         }
     }
 }
