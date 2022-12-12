@@ -171,6 +171,27 @@ public class Albaik_app extends Application {
 
         return stackPane;
     }
+
+    public StackPane createCourseText(Double height, Double width,Color color, String text) {
+        StackPane stackPane = new StackPane();
+        BorderPane borderPane = new BorderPane();
+        Rectangle rectangle = new Rectangle(width, height, color); rectangle.setStroke(Color.BLACK);
+
+        Label word = new Label(text);
+
+
+        Button btn = new Button("del");
+        btn.resize(5,5);
+        btn.setAlignment(Pos.BASELINE_RIGHT);
+
+        word.setFont(Font.font(20));
+
+        borderPane.setCenter(word);
+        borderPane.setBottom(btn);
+        stackPane.getChildren().addAll(rectangle, borderPane);
+
+        return stackPane;
+    }
     public void setSchedule() {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
         String[] times = {"","7 am", "8 pm", "9 am", "10 am", "11 am", "12 pm",
@@ -187,9 +208,14 @@ public class Albaik_app extends Application {
            FlowPane flowPane = new FlowPane();
            flowPane.setOrientation(Orientation.VERTICAL);
            flowPane.setVgap(0);
+           StackPane temp = new StackPane();
+           temp = createCourseText(210.0 - 35, 150.0, Color.LIGHTGREEN,"class time");
+
            flowPane.getChildren().add(createShapeWithText(70.0, 150.0, Color.LIGHTCORAL,days[i]));
+
            flowPane.getChildren().add(createShapeWithText(70.0, 150.0, Color.LIGHTGRAY,"empty"));
-           flowPane.getChildren().add(createShapeWithText(210.0 - 35, 150.0, Color.LIGHTGREEN,"class time"));
+            if (i == 1) flowPane.getChildren().add(temp);
+            else flowPane.getChildren().add(createShapeWithText(210.0 - 35, 150.0, Color.LIGHTGREEN,"class time"));
            hBox.getChildren().add(flowPane);
 
         }
