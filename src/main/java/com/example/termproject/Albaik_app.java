@@ -27,8 +27,8 @@ public class Albaik_app extends Application {
     protected final Button btBasket = new Button("Basket");
     protected final  Button btHome = new Button("Home");
     protected final Button btStart = new Button("Start");
-    protected final  int screenWidth = 1200;
-    protected final  int screenHeight = 900;
+    protected final  int screenWidth = 1920;
+    protected final  int screenHeight = 1000;
     protected   Stage stage;
     FinishedCourse finishedCourse;
 

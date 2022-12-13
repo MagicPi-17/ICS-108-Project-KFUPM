@@ -1,5 +1,6 @@
 package com.example.termproject;
 
+import com.example.termproject.classes.Basket;
 import com.example.termproject.classes.Schedule;
 import com.example.termproject.readWriteDataClasses.DataReader;
 import javafx.application.Application;
@@ -25,11 +26,11 @@ import com.example.termproject.classes.CSVReader;
 import com.example.termproject.classes.Section;
 
 public class app extends Application {
-    public ArrayList<Button> addButtons = new ArrayList<>();
-    public ArrayList<Button> removeButtons = new ArrayList<>();
-    public Basket myBasket = new Basket();
-    public FiltratedSections filtrated = new FiltratedSections();
-
+    private ArrayList<Button> addButtons = new ArrayList<>();
+    private ArrayList<Button> removeButtons = new ArrayList<>();
+    private Basket myBasket = new Basket();
+    private FiltratedSections filtrated = new FiltratedSections();
+    private Stage stage;
 
 
     public static void main(String[] args) {
@@ -37,21 +38,24 @@ public class app extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        try {
-        HBox courseOfferingPane = getCourseOfferingPane("Course Offering");
+    public void start(Stage stage) {
+        this.stage = stage;
+        this.stage.setTitle("Term_Project");
 
-        Scene scene = new Scene(courseOfferingPane, 1920, 1000);
-        stage.setTitle("Term_Project");
-        stage.setScene(scene);
-        stage.show();
-
-
-        }catch (IOException e) {
-            System.out.println("Error!!\n" + e.getMessage());
-        }     
+        setAddToBasketScene();
+        this.stage.show();
     }
 
+    public void setAddToBasketScene() {
+        try {
+            HBox courseOfferingPane = getCourseOfferingPane("Add Sections to Basket");
+
+            Scene scene = new Scene(courseOfferingPane, 1920, 1000);
+            stage.setScene(scene);
+        }catch (IOException e) {
+            System.out.println("Error!!\n" + e.getMessage());
+        }
+    }
     public GridPane getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
         // Converting the List to 2DArray
         ArrayList<Section> filtired = filtrated.getFiltratedSections();
@@ -142,14 +146,20 @@ public class app extends Application {
         VBox buttonsSection = new VBox();
         buttonsSection.setPrefWidth(200);
         Button nextButton = new Button("Next");
-        Button myPlanButton = new Button("My Plan");
+        Button loadSavedButton = new Button("Load Saved Schedule");
+//        Button myPlanButton = new Button("My Plan Courses");
+
         buttonsSection.getChildren().add(nextButton);
-        buttonsSection.getChildren().add(myPlanButton);
+        buttonsSection.getChildren().add(loadSavedButton);
+//        buttonsSection.getChildren().add(myPlanButton);
+
         finalPane.getChildren().add(buttonsSection);
         nextButton.setPrefSize(200, 150);
-        myPlanButton.setPrefSize(200,150);
-        nextButton.setFont((Font.font ("Verdana", 18)));
-        myPlanButton.setFont((Font.font ("Verdana", 18)));
+        loadSavedButton.setPrefSize(200, 150);
+//        myPlanButton.setPrefSize(200,150);
+        nextButton.setFont((Font.font ("Verdana", 20)));
+        loadSavedButton.setFont((Font.font ("Verdana", 16)));
+//        myPlanButton.setFont((Font.font ("Verdana", 17)));
 
         ScrollPane scrollPane = new ScrollPane(pane); //Right section(COURSE OFFERING)
         courseOfferingPane.getChildren().add(scrollPane);
@@ -160,23 +170,6 @@ public class app extends Application {
         finalPane.getChildren().add(courseOfferingPane);
 
         return finalPane;
-    }
-
-    class Basket {
-        private ArrayList<Section> sections = new ArrayList<>();
-
-        public void addSection(Section section) {
-            sections.add(section);
-        }
-
-        public void removeSection(Section section) {
-            sections.remove(section);
-        }
-
-
-        public ArrayList<Section> getSections() {
-            return this.sections;
-        }
     }
 
     class FiltratedSections {
@@ -203,6 +196,7 @@ public class app extends Application {
 
             System.out.println("ADD " + numberButton.getId()); //Add the section to the basket
             myBasket.addSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
+            System.out.println(myBasket.getSections());
         }
     }
 
