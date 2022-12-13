@@ -56,7 +56,10 @@ public class app extends Application {
             System.out.println("Error!!\n" + e.getMessage());
         }
     }
-    public GridPane getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
+    public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
+        HBox finalPane = new HBox();
+        finalPane.setPrefWidth(1920);
+        finalPane.setAlignment(Pos.BASELINE_CENTER);
         // Converting the List to 2DArray
         ArrayList<Section> filtired = filtrated.getFiltratedSections();
         String[][] filtiredIn2D = new String[filtired.size() + 1][10];
@@ -86,8 +89,8 @@ public class app extends Application {
         GridPane grid = new GridPane();
         for (int i = 0; i < filtiredIn2D.length; i++) {
             for (int j = 0; j < filtiredIn2D[i].length; j++) {
-                Label info = new Label( "       " + filtiredIn2D[i][j] + "    ");
-                info.setFont(Font.font ("Verdana", 14));
+                Label info = new Label(filtiredIn2D[i][j] + "         ");
+                info.setFont(Font.font ("Verdana", 16));
                 info.setPadding(new Insets(15, 0, 0, 0));
                 HBox infoPane = new HBox(); //To the data in their boxes
                 infoPane.getChildren().add(info);
@@ -118,56 +121,54 @@ public class app extends Application {
                 removeButtons.add(removeBtn); //Adding the button to the public list of buttons
             }
         }
-        return grid;
+        finalPane.getChildren().add(grid);
+        return finalPane;
+    }
+
+    public BorderPane getTitleButtonsPane(String title) {
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPadding(new Insets(50,0,15,0));
+        //Title
+        Label degreePlanTitle = new Label(title);
+        degreePlanTitle.setFont(Font.font ("Verdana", 22));
+        borderPane.setCenter(degreePlanTitle);
+        //Buttons
+        Button nextButton = new Button("Next");
+        nextButton.setPrefSize(150, 120);
+        nextButton.setFont((Font.font ("Verdana", 20)));
+
+        Button loadScheduleButton = new Button("Load Saved Schedule");
+        loadScheduleButton.setPrefSize(220, 120);
+        loadScheduleButton.setFont((Font.font ("Verdana", 17)));
+        loadScheduleButton.setPadding(new Insets(0,5,0,5));
+
+        borderPane.setRight(nextButton);
+        borderPane.setLeft(loadScheduleButton);
+
+        return  borderPane;
     }
 
 
     public HBox getCourseOfferingPane(String title) throws IOException{
         HBox finalPane = new HBox();
-        HBox courseOfferingPane = new HBox();
-        courseOfferingPane.setPrefWidth(1720);
-        VBox pane = new VBox(); //The pane is placing its children panes vertically
-        pane.setPadding(new Insets(0,40,0,0));
-        pane.setSpacing(50);
 
-        HBox degreePlanTitlePane = new HBox(); //Title
-        degreePlanTitlePane.setAlignment(Pos.BASELINE_CENTER);
-        degreePlanTitlePane.setPadding(new Insets(50,0,15,0));
-        Label degreePlanTitle = new Label(title);
-        degreePlanTitle.setFont(Font.font ("Verdana", 20));
-        degreePlanTitlePane.getChildren().add(degreePlanTitle);
+        VBox vpane = new VBox(); //The pane is placing its children panes vertically
+        vpane.setPrefWidth(1920);
+        vpane.setPadding(new Insets(0,40,0,0));
+        vpane.setSpacing(50);
 
-        GridPane planCoursesPane = getDataInGridPane();
+        BorderPane titleAndButtonsPane = getTitleButtonsPane(title);
 
-        pane.getChildren().add(degreePlanTitlePane); //adding the title to the pane 
-        pane.getChildren().add(planCoursesPane); //adding the list of plan courses to the pane
+        HBox sectionsPane = getDataInGridPane();
 
-        //Buttons Section
-        VBox buttonsSection = new VBox();
-        buttonsSection.setPrefWidth(200);
-        Button nextButton = new Button("Next");
-        Button loadSavedButton = new Button("Load Saved Schedule");
-//        Button myPlanButton = new Button("My Plan Courses");
+        vpane.getChildren().add(titleAndButtonsPane); //adding the title to the pane
+        vpane.getChildren().add(sectionsPane); //adding the list of plan courses to the pane
 
-        buttonsSection.getChildren().add(nextButton);
-        buttonsSection.getChildren().add(loadSavedButton);
-//        buttonsSection.getChildren().add(myPlanButton);
-
-        finalPane.getChildren().add(buttonsSection);
-        nextButton.setPrefSize(200, 150);
-        loadSavedButton.setPrefSize(200, 150);
-//        myPlanButton.setPrefSize(200,150);
-        nextButton.setFont((Font.font ("Verdana", 20)));
-        loadSavedButton.setFont((Font.font ("Verdana", 16)));
-//        myPlanButton.setFont((Font.font ("Verdana", 17)));
-
-        ScrollPane scrollPane = new ScrollPane(pane); //Right section(COURSE OFFERING)
-        courseOfferingPane.getChildren().add(scrollPane);
+        ScrollPane scrollPane = new ScrollPane(vpane); //Right section(COURSE OFFERING)
+        finalPane.getChildren().add(scrollPane);
         //Fit the scrollpane in parent pane
-        scrollPane.prefWidthProperty().bind(courseOfferingPane.widthProperty());
-        scrollPane.prefHeightProperty().bind(courseOfferingPane.heightProperty());
-
-        finalPane.getChildren().add(courseOfferingPane);
+        scrollPane.prefWidthProperty().bind(finalPane.widthProperty());
+        scrollPane.prefHeightProperty().bind(finalPane.heightProperty());
 
         return finalPane;
     }
