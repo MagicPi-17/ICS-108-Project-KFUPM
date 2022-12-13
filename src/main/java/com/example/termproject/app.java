@@ -31,6 +31,7 @@ public class app extends Application {
     private Basket myBasket = new Basket();
     private FiltratedSections filtrated = new FiltratedSections();
     private Stage stage;
+    private final int stageWidth = 1920;
 
 
     public static void main(String[] args) {
@@ -50,7 +51,7 @@ public class app extends Application {
         try {
             HBox courseOfferingPane = getCourseOfferingPane("Add Sections to Basket");
 
-            Scene scene = new Scene(courseOfferingPane, 1920, 1000);
+            Scene scene = new Scene(courseOfferingPane, stageWidth, 1000);
             stage.setScene(scene);
         }catch (IOException e) {
             System.out.println("Error!!\n" + e.getMessage());
@@ -58,7 +59,7 @@ public class app extends Application {
     }
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
         HBox finalPane = new HBox();
-        finalPane.setPrefWidth(1920);
+        finalPane.setPrefWidth(stageWidth);
         finalPane.setAlignment(Pos.BASELINE_CENTER);
         // Converting the List to 2DArray
         ArrayList<Section> filtired = filtrated.getFiltratedSections();
@@ -125,8 +126,14 @@ public class app extends Application {
         return finalPane;
     }
 
-    public BorderPane getTitleButtonsPane(String title) {
+    public HBox getTitleButtonsPane(String title) {
+        HBox finalPane = new HBox();
+        HBox centringPane = new HBox();
+        centringPane.setAlignment(Pos.BASELINE_CENTER);
+        centringPane.setPrefWidth(stageWidth);
+
         BorderPane borderPane = new BorderPane();
+        borderPane.setPrefWidth(stageWidth/2);
         borderPane.setPadding(new Insets(50,0,15,0));
         //Title
         Label degreePlanTitle = new Label(title);
@@ -134,30 +141,33 @@ public class app extends Application {
         borderPane.setCenter(degreePlanTitle);
         //Buttons
         Button nextButton = new Button("Next");
-        nextButton.setPrefSize(150, 120);
+        nextButton.setPrefSize(220, 100);
         nextButton.setFont((Font.font ("Verdana", 20)));
 
         Button loadScheduleButton = new Button("Load Saved Schedule");
-        loadScheduleButton.setPrefSize(220, 120);
-        loadScheduleButton.setFont((Font.font ("Verdana", 17)));
+        loadScheduleButton.setPrefSize(220, 100);
+        loadScheduleButton.setFont((Font.font ("Verdana", 18)));
         loadScheduleButton.setPadding(new Insets(0,5,0,5));
 
         borderPane.setRight(nextButton);
         borderPane.setLeft(loadScheduleButton);
+        centringPane.getChildren().add(borderPane);
+        finalPane.getChildren().add(centringPane);
 
-        return  borderPane;
+        return  finalPane;
     }
 
 
     public HBox getCourseOfferingPane(String title) throws IOException{
         HBox finalPane = new HBox();
+        finalPane.setAlignment(Pos.BASELINE_CENTER);
 
         VBox vpane = new VBox(); //The pane is placing its children panes vertically
-        vpane.setPrefWidth(1920);
+        vpane.setPrefWidth(stageWidth);
         vpane.setPadding(new Insets(0,40,0,0));
         vpane.setSpacing(50);
 
-        BorderPane titleAndButtonsPane = getTitleButtonsPane(title);
+        HBox titleAndButtonsPane = getTitleButtonsPane(title);
 
         HBox sectionsPane = getDataInGridPane();
 
@@ -197,7 +207,6 @@ public class app extends Application {
 
             System.out.println("ADD " + numberButton.getId()); //Add the section to the basket
             myBasket.addSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
-            System.out.println(myBasket.getSections());
         }
     }
 
