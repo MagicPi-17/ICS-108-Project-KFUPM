@@ -1,11 +1,5 @@
 package com.example.termproject.classes;
-
-import com.example.termproject.readWriteDataClasses.DataHandler;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.*;
 
 
 class SectionComparator implements Comparator<Section> {
@@ -13,67 +7,60 @@ class SectionComparator implements Comparator<Section> {
     public int compare(Section o1, Section o2) {
         int time1 = Integer.parseInt(o1.getTime().split("-")[0]);
         int time2 = Integer.parseInt(o2.getTime().split("-")[0]);
-        if(time1 > time2) {return 1;}
-        else if(time1 == time2) {return 0;}
-        else {return -1;}
+        return Integer.compare(time1, time2);
     }
 }
 
 public class Schedule {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        new Schedule(DataHandler.getAllowedSections(), "221");
+    public static void main(String[] args) {
+        Schedule schedule = new Schedule("221");
+
 
     }
-    ArrayList<Section> sections;
-    TreeMap<Section, String> sectionsDays = new TreeMap<>(new SectionComparator());
-    ArrayList<Section> sundaySections = new ArrayList<Section>();
-    ArrayList<Section> MondaySections = new ArrayList<Section>();
-    ArrayList<Section> TuesSections = new ArrayList<Section>();
-    ArrayList<Section> wednesdaySections = new ArrayList<Section>();
-    ArrayList<Section> ThursdaySections = new ArrayList<Section>();
+    TreeMap<Section, String> sections;
     String term;
 
-    public Schedule() {
-        sections = new ArrayList<Section>();
-        term = "";}
+    public Schedule(String term) {
+        sections = new TreeMap<>(new SectionComparator());
+        this.term = term;}
 
-    public void addSectionToDays(Section section) {
-        String days = section.getDay();
-        Character day;
-        for(int i = 0; i < days.length();i++) {
-            day = days.charAt(i);
-            if(day == 'U') {}
-            else if(day == 'M') {}
-            else if(day == 'T') {}
-            else if(day == 'W') {}
-            else if(day == 'R') {}
 
+    public String getTerm() {return term;}
+
+    public TreeMap<Section, String> getSections() {return sections;}
+
+
+    public boolean addSectionToDays(Section section) {
+        if (checkTime(section)) {
+            sections.put(section, section.getDays());
+            return true;
+        }
+        else {
+            return false;
         }
     }
+    // this function check if the section can be added the current schedule sections or not
     public Boolean checkTime(Section section) {
-        sectionsDays.put(sections.get(0), sections.get(0).getDay());
-        sectionsDays.put(sections.get(1), sections.get(1).getDay());
-        sectionsDays.put(sections.get(2), sections.get(2).getDay());
+        String[] section1Days = section.getDays().split("");
+        Arrays.sort(section1Days);
+        for(Section registeredSection : sections.keySet()) {
+            System.out.println(registeredSection.toString());
+            for(String day : registeredSection.getDays().split("")) {
+                if (Arrays.binarySearch(section1Days,day) >= 0) {
+                    if (section.getTimeDifference(registeredSection) == -1) {
+                        return false;
+                    }
+                }
+            }
 
-        for(Section s : sectionsDays.keySet()) {
-            System.out.println(section.toString());
         }
-
-
-
         return true;
     }
 
-    public ArrayList<Section> getSections() {return sections;}
-    public String getTerm() {return term;}
-    public void setSections(ArrayList<Section> sections) {this.sections = sections;}
-    public void setTerm(String term) {this.term = term;}
 
-    public Schedule(ArrayList<Section> sections_basket, String term)  {
-        this.sections = sections_basket;
-        this.term = term;
-    }
+
+
 
 
 

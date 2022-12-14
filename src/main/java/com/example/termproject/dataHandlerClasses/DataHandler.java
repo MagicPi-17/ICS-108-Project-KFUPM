@@ -1,4 +1,4 @@
-package com.example.termproject.readWriteDataClasses;
+package com.example.termproject.dataHandlerClasses;
 
 import com.example.termproject.classes.CSVReader;
 import com.example.termproject.classes.Course;

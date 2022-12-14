@@ -2,7 +2,7 @@ package com.example.termproject;
 
 import com.example.termproject.classes.FinishedCourse;
 import com.example.termproject.classes.Student;
-import com.example.termproject.readWriteDataClasses.DataHandler;
+import com.example.termproject.dataHandlerClasses.DataHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

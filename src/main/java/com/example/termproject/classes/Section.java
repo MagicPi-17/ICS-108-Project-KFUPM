@@ -1,9 +1,6 @@
 package com.example.termproject.classes;
 
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 // Course-Sec,Activity,CRN,Course Name,Instructor,Day,Time,Location,Status,Waitlist
 
 
@@ -14,7 +11,7 @@ public class Section implements Comparable<Section> {
     String CRN;
     String courseName;
     String instructor;
-    String day;
+    String days;
     String time;
     String location;
     String status;
@@ -28,7 +25,7 @@ public class Section implements Comparable<Section> {
         this.CRN = CRN;
         this.courseName = courseName;
         this.instructor = Instructor;
-        this.day = day;
+        this.days = day;
         this.time = time;
         this.location = Location;
         this.status = status;
@@ -88,8 +85,8 @@ public class Section implements Comparable<Section> {
         return CRN;
     }
 
-    public String getDay() {
-        return day;
+    public String getDays() {
+        return days;
     }
 
     public String getInstructor() {
@@ -120,7 +117,7 @@ public class Section implements Comparable<Section> {
                 ", CRN='" + CRN + '\'' +
                 ", courseName='" + courseName + '\'' +
                 ", Instructor='" + instructor + '\'' +
-                ", day='" + day + '\'' +
+                ", day='" + days + '\'' +
                 ", time='" + time + '\'' +
                 ", Location='" + location + '\'' +
                 ", status='" + status + '\'' +

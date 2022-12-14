@@ -1,6 +1,6 @@
 package com.example.termproject;
 
-import com.example.termproject.classes.FirstScene;
+import com.example.termproject.Scenes.FirstScene;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;

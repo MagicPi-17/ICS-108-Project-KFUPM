@@ -1,6 +1,8 @@
-package com.example.termproject.classes;
+package com.example.termproject.Scenes;
 
-import com.example.termproject.readWriteDataClasses.DataHandler;
+import com.example.termproject.classes.Basket;
+import com.example.termproject.classes.Section;
+import com.example.termproject.dataHandlerClasses.DataHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FirstScene {
+public class FirstScene extends SceneBuilder {
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private Basket myBasket = new Basket();
@@ -47,7 +49,7 @@ public class FirstScene {
             filtiredIn2D[i + 1][2] = filtired.get(i).getCRN();
             filtiredIn2D[i + 1][3] = filtired.get(i).getCourseName();
             filtiredIn2D[i + 1][4] = filtired.get(i).getInstructor();
-            filtiredIn2D[i + 1][5] = filtired.get(i).getDay();
+            filtiredIn2D[i + 1][5] = filtired.get(i).getDays();
             filtiredIn2D[i + 1][6] = filtired.get(i).getTime();
             filtiredIn2D[i + 1][7] = filtired.get(i).getLocation();
             filtiredIn2D[i + 1][8] = filtired.get(i).getStatus();
