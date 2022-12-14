@@ -1,24 +1,19 @@
 package com.example.termproject.classes;
 
-import com.example.termproject.app;
-import com.example.termproject.classes.Basket;
-import com.example.termproject.readWriteDataClasses.DataReader;
-import javafx.application.Application;
+import com.example.termproject.readWriteDataClasses.DataHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.example.termproject.classes.Section;
 
 public class FirstScene {
     private ArrayList<Button> addButtons = new ArrayList<>();
@@ -168,7 +163,7 @@ public class FirstScene {
         private ArrayList<Section> filtrated;
         FiltratedSections() {
             try {
-                ArrayList<Section> filtired = DataReader.getAllowedSections();
+                ArrayList<Section> filtired = DataHandler.getAllowedSections();
                 this.filtrated = filtired;
             } catch (FileNotFoundException e) {
                 System.out.println("ERROR IN GETTING FILTIRED SECTIONS");

@@ -2,7 +2,7 @@ package com.example.termproject;
 
 import com.example.termproject.classes.FinishedCourse;
 import com.example.termproject.classes.Student;
-import com.example.termproject.readWriteDataClasses.DataReader;
+import com.example.termproject.readWriteDataClasses.DataHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +12,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Effect;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -117,7 +116,7 @@ public class Albaik_app extends Application {
         VBox vBoxBar = createButtonsBar();
         HBox columnData = new HBox();
         try {
-            Student studentData = DataReader.getStudentFinishedCourse();
+            Student studentData = DataHandler.getStudentFinishedCourse();
             ArrayList<Integer> termsSorted = studentData.getTermsSorted();
 
             VBox[] vBoxes = new VBox[termsSorted.size()];

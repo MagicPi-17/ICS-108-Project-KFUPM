@@ -1,11 +1,10 @@
 package com.example.termproject.classes;
 
-import com.example.termproject.readWriteDataClasses.DataReader;
+import com.example.termproject.readWriteDataClasses.DataHandler;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.TreeMap;
 
 
@@ -23,7 +22,7 @@ class SectionComparator implements Comparator<Section> {
 public class Schedule {
 
     public static void main(String[] args) throws FileNotFoundException {
-        new Schedule(DataReader.getAllowedSections(), "221");
+        new Schedule(DataHandler.getAllowedSections(), "221");
 
     }
     ArrayList<Section> sections;

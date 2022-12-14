@@ -5,12 +5,12 @@ import com.example.termproject.classes.Course;
 import com.example.termproject.classes.Section;
 import com.example.termproject.classes.Student;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class DataReader {
+public class DataHandler {
 
     public static Student getStudentFinishedCourse() throws FileNotFoundException {
         Student newStudent = new Student();
@@ -45,13 +45,13 @@ public class DataReader {
     public static ArrayList<Section> getAllowedSections() throws FileNotFoundException {
         ArrayList<Section> allowedSections = new ArrayList<Section>();
 
-        Student student = DataReader.getStudentFinishedCourse();
+        Student student = DataHandler.getStudentFinishedCourse();
         String[] finishedCourses = student.getFinishedCoursesNames();
         Arrays.sort(finishedCourses);
 
-        ArrayList<Section> sections = DataReader.getCourseOffering();
+        ArrayList<Section> sections = DataHandler.getCourseOffering();
 
-        ArrayList<Course> degreePlanCourses = DataReader.getDegreePlanCourses();
+        ArrayList<Course> degreePlanCourses = DataHandler.getDegreePlanCourses();
         Collections.sort(degreePlanCourses);
 
         ArrayList<String> allowedCourses = new ArrayList<String>();
@@ -81,7 +81,28 @@ public class DataReader {
         return  allowedSections;
     }
 
+    public static void writeObject(String fileName, Object object) throws IOException {
+        File sFile = new File(fileName);
 
+        FileOutputStream outputFile = new FileOutputStream(sFile);
+        ObjectOutputStream output = new ObjectOutputStream(outputFile);
+
+        output.writeObject(object);
+        output.close();
+
+    }
+
+    public static void readObject(String fileName) throws IOException, ClassNotFoundException {
+        File sFile = new File(fileName);
+        FileInputStream inputFile = new FileInputStream(sFile);
+        ObjectInputStream input = new ObjectInputStream(inputFile);
+
+        input.readObject();
+        input.close();
+
+
+
+    }
 
     public static void main(String[] args) {
         try {
