@@ -25,7 +25,7 @@ public class FirstScene {
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private Basket myBasket = new Basket();
     private FiltratedSections filtrated = new FiltratedSections();
-    private final int stageWidth = 1920;
+    public final int stageWidth = 1920;
 
 
 

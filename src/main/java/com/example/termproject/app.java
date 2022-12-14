@@ -8,7 +8,9 @@ import javafx.stage.Stage;
 
 public class app extends Application {
     private Stage stage;
-    private final int stageWidth = 1920;
+    private FirstScene firstScene = new FirstScene();
+    private final int stageWidth = firstScene.stageWidth;
+
 
 
     public static void main(String[] args) {
@@ -26,7 +28,6 @@ public class app extends Application {
 
     public void setAddingToBasketScene() {
         try {
-            FirstScene firstScene = new FirstScene();
             HBox courseOfferingPane = firstScene.getCourseOfferingPane("Add Sections to Basket");
 
             Scene scene = new Scene(courseOfferingPane, stageWidth, 1000);
