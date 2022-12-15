@@ -76,6 +76,13 @@ public class SecondScene {
         buttons.getChildren().add(btSaveSchedule);
 
 
+        for(Section section : schedule.getSections().keySet()) {
+            System.out.println(basket.getSections().indexOf(section));
+            if(basket.getSections().indexOf(section) < 0) {
+
+            }
+        }
+
         VBox sections = new VBox();
         for(Section section : basket.getSections()) {
             Button sectionBtn = new Button(section.getScheduleText());
@@ -85,6 +92,10 @@ public class SecondScene {
             sections.getChildren().add(sectionBtn);
 
             sectionsButtons.put(section.getCourse_section(), sectionBtn);
+        }
+
+        for(Section section : schedule.getSections().keySet()) {
+            sectionsButtons.get(section.getCourse_section()).setDisable(true);
         }
 
         BorderPane borderPane = new BorderPane(sections);

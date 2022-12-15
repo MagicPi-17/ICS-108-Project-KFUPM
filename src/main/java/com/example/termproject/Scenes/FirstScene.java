@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirstScene {
     private ArrayList<Button> addButtons;
@@ -25,8 +26,10 @@ public class FirstScene {
     private Button nextButton;
     private Button loadScheduleButton;
     private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
+    private HashMap<Section, Integer> sectionsIndexes = new HashMap<>();
 
-    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs) {
+
+    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs, HashMap<Section, Integer> sectionsIndexes) {
         this.nextButton = next;
         this.loadScheduleButton = load;
         this.myBasket = basket;
@@ -34,6 +37,7 @@ public class FirstScene {
         this.removeButtons = removeButtons;
         this.filtrated = getFiltratedSections();
         this.clickedButtonsIDs = clickedButtonsIDs;
+        this.sectionsIndexes = sectionsIndexes;
     }
 
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane

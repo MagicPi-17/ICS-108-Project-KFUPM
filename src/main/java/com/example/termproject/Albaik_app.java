@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Albaik_app extends Application {
@@ -34,7 +35,8 @@ public class Albaik_app extends Application {
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
-    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons, clickedButtonsIDs);
+    private HashMap<Section, Integer> sectionsIndexes = new HashMap<>();
+    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons, clickedButtonsIDs, sectionsIndexes);
     private String dataFileName = "scheduleData.dat";
     private SecondScene secondScene;
 
