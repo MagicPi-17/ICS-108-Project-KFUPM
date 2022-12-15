@@ -1,4 +1,7 @@
 package com.example.termproject.classes;
+import com.example.termproject.dataHandlerClasses.DataHandler;
+
+import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -13,8 +16,18 @@ class SectionComparator implements Comparator<Section> {
 
 public class Schedule {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Schedule schedule = new Schedule("221");
+        System.out.println(DataHandler.getAllowedSections().get(3).toString());
+        System.out.println(DataHandler.getAllowedSections().get(1).toString());
+
+        schedule.addSectionToDays(DataHandler.getAllowedSections().get(1));
+        schedule.addSectionToDays(DataHandler.getAllowedSections().get(3));
+
+        for(Section section : schedule.getSections().keySet()) {
+            System.out.println("deubg " + section);
+        }
+
 
 
     }
@@ -31,7 +44,34 @@ public class Schedule {
     public TreeMap<Section, String> getSections() {return sections;}
 
 
+
+    public ArrayList<Section>[] getScheduleByDays() {
+        ArrayList<Section>[] sectionsByDays = new ArrayList[5];
+        ArrayList<Section> sundaySections = new ArrayList<>();
+        ArrayList<Section> mondaySections = new ArrayList<>();
+        ArrayList<Section> tuesSections = new ArrayList<>();
+        ArrayList<Section> wednesdaySections = new ArrayList<>();
+        ArrayList<Section> thursSections = new ArrayList<>();
+        for(Section section : sections.keySet()) {
+            for(Character day : section.getDays().toCharArray()) {
+                if(day == 'U') sundaySections.add(section);
+                else if(day == 'M') mondaySections.add(section);
+                else if(day == 'T') mondaySections.add(section);
+                else if(day == 'W') mondaySections.add(section);
+                else if(day == 'R') mondaySections.add(section);
+            }
+        }
+        sectionsByDays[0] = sundaySections;
+        sectionsByDays[1] = mondaySections;
+        sectionsByDays[2] = tuesSections;
+        sectionsByDays[3] = wednesdaySections;
+        sectionsByDays[4] = thursSections;
+
+        return  sectionsByDays;
+    }
+
     public boolean addSectionToDays(Section section) {
+        System.out.println(checkTime(section));
         if (checkTime(section)) {
             sections.put(section, section.getDays());
             return true;
@@ -40,13 +80,16 @@ public class Schedule {
             return false;
         }
     }
+
+    public void removeSection(Section section) {
+        sections.remove(section);
+    }
     // this function check if the section can be added the current schedule sections or not
     public Boolean checkTime(Section section) {
-        String[] section1Days = section.getDays().split("");
+        char[] section1Days = section.getDays().toCharArray();
         Arrays.sort(section1Days);
         for(Section registeredSection : sections.keySet()) {
-            System.out.println(registeredSection.toString());
-            for(String day : registeredSection.getDays().split("")) {
+            for(Character day : registeredSection.getDays().toCharArray()) {
                 if (Arrays.binarySearch(section1Days,day) >= 0) {
                     if (section.getTimeDifference(registeredSection) == -1) {
                         return false;

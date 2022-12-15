@@ -4,6 +4,7 @@ package com.example.termproject.classes;
 // Course-Sec,Activity,CRN,Course Name,Instructor,Day,Time,Location,Status,Waitlist
 
 
+import javafx.scene.paint.Color;
 
 public class Section implements Comparable<Section> {
     String course_section;
@@ -16,6 +17,11 @@ public class Section implements Comparable<Section> {
     String location;
     String status;
     String waitlist;
+    Color color;
+
+    public Section(String course_section, String time) {
+        this(course_section, "none", "none","none","none","none",time,"none","none","none");
+    }
 
     public Section(String course_section, String Activity, String CRN,
                    String courseName, String Instructor, String day,
@@ -30,15 +36,14 @@ public class Section implements Comparable<Section> {
         this.location = Location;
         this.status = status;
         this.waitlist = waitlist;
+        this.color = new Color(Math.random() * 0.7,Math.random() * 0.7,Math.random() * 0.7, Math.random() * 0.6);
     }
 
     public static void main(String[] args) {
-        String[] strings1 = "AE  540-01,LEC,23978,Flight Dynamics and Control I,Ayman Abdallah,UT,0800-0900,63-024,Open,Closed".split(",");
-        Section section = new Section(strings1);
-        String[] strings2 = "AE  540-01,LEC,23978,Flight Dynamics and Control I,Ayman Abdallah,UT,0730-0830,63-024,Open,Closed".split(",");
-        Section section1 = new Section(strings2);
+        Section s1 = new Section("s1","7000-7000");
+        Section s2 = new Section("s2", "7000-7500");
 
-        int result = section1.getTimeDifference(section);
+        int result = s1.getTimeDifference(s2);
         System.out.println(result);
     }
 
@@ -53,10 +58,10 @@ public class Section implements Comparable<Section> {
         int endTime1 = Integer.valueOf(times1[1]);
         int endTime2 = Integer.valueOf(times2[1]);
 
-        int hoursBigGap = (endTime2/100) - (startTime1/100) - 1;
-        int hoursSmallGap = (startTime2/100) - (endTime1/100) - 1;
-        int minutesBigGap = 60 + (endTime2 % 100) - (startTime1 % 100);
-        int minutesSmallGap = 60 + (startTime2 % 100) - (endTime1 % 100);
+        int hoursBigGap = (endTime2/100) - (startTime1/100);
+        int hoursSmallGap = (startTime2/100) - (endTime1/100);
+        int minutesBigGap = (endTime2 % 100) - (startTime1 % 100);
+        int minutesSmallGap = (startTime2 % 100) - (endTime1 % 100);
 
         int dif1 = hoursBigGap * 60 + minutesBigGap;
         int dif2 = hoursSmallGap * 60 + minutesSmallGap;
@@ -68,6 +73,18 @@ public class Section implements Comparable<Section> {
         else {return -1;}
     }
 
+    public double getTimeDuration() {
+        String[] times = time.split("-");
+
+        int startTime = Integer.valueOf(times[0]);
+        int endTime = Integer.valueOf(times[1]);
+        int hoursDiff = (endTime/100) - (startTime/100);
+        int minutesDiff = (endTime % 100) - (startTime % 100);
+        return hoursDiff * 60 + minutesDiff;
+    }
+
+
+    public Color getColor() {return color;}
 
     public String getActivity() {
         return activity;
@@ -107,6 +124,10 @@ public class Section implements Comparable<Section> {
 
     public String getWaitlist() {
         return waitlist;
+    }
+
+    public String getScheduleText() {
+        return course_section+ " " + days + "\n" + time;
     }
 
     @Override
