@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 
 public class Albaik_app extends Application {
@@ -23,6 +24,9 @@ public class Albaik_app extends Application {
     protected final Button btSaveSchedule = new Button("Save schedule");
     protected final  Button btNext = new Button("Next");
     protected final Button btPrevious = new Button("Previous");
+    private ArrayList<Button> addButtons = new ArrayList<>();
+    private ArrayList<Button> removeButtons = new ArrayList<>();
+
     protected final  int screenWidth = 1920;
     protected final  int screenHeight = 1000;
 
@@ -31,8 +35,7 @@ public class Albaik_app extends Application {
     Schedule schedule = new Schedule("221");
     Basket basket = new Basket();
     protected Stage stage;
-    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule);
-
+    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons);
     private SecondScene secondScene;
 
 
@@ -41,27 +44,9 @@ public class Albaik_app extends Application {
     public void start(Stage stage) throws FileNotFoundException {
         this.stage = stage;
         secondScene = new SecondScene(stage,schedule, basket, btPrevious, btSaveSchedule);
-        basket.addSection(DataHandler.getAllowedSections().get(0));
-        basket.addSection(DataHandler.getAllowedSections().get(1));
-        basket.addSection(DataHandler.getAllowedSections().get(2));
-        basket.addSection(DataHandler.getAllowedSections().get(3));
-        basket.addSection(DataHandler.getAllowedSections().get(4));
-        basket.addSection(DataHandler.getAllowedSections().get(5));
-        basket.addSection(DataHandler.getAllowedSections().get(6));
-        basket.addSection(DataHandler.getAllowedSections().get(7));
-        basket.addSection(DataHandler.getAllowedSections().get(8));
-        basket.addSection(DataHandler.getAllowedSections().get(9));
-        basket.addSection(DataHandler.getAllowedSections().get(10));
-        basket.addSection(DataHandler.getAllowedSections().get(11));
-        basket.addSection(DataHandler.getAllowedSections().get(12));
 
-        schedule.addSectionToDays(DataHandler.getAllowedSections().get(0));
-
-
-
-
-        buttonsSetup(); //Give handler to each button
-        setAddingToBasketScene(); //First scene
+        buttonsSetup(); //Gives handler to each button
+        setFirstScene(); //First scene
 
         stage.show();
     }
@@ -70,13 +55,13 @@ public class Albaik_app extends Application {
         launch(args);
     }
 
-    public void setAddingToBasketScene() {
+    public void setFirstScene() {
         try {
             HBox courseOfferingPane = firstScene.getCourseOfferingPane("Add Sections to Basket");
 
             Scene scene = new Scene(courseOfferingPane, screenWidth, screenHeight);
             stage.setScene(scene);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error!!\n" + e.getMessage());
         }
     }
@@ -105,18 +90,14 @@ public class Albaik_app extends Application {
             }
 
             else if (actionEvent.getSource() == btPrevious) {
-                setAddingToBasketScene();
+                basket.clearBasket(removeButtons, addButtons);
+                setFirstScene();
             }
             else if (actionEvent.getSource() == btLoadSchedule) {
-
             }
             else if (actionEvent.getSource() == btSaveSchedule) {
-
-
-
             }
         }
     }
-
 }
 

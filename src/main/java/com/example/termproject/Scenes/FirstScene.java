@@ -17,17 +17,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FirstScene {
-    private ArrayList<Button> addButtons = new ArrayList<>();
-    private ArrayList<Button> removeButtons = new ArrayList<>();
-    private Basket myBasket = new Basket();
+    private ArrayList<Button> addButtons;
+    private ArrayList<Button> removeButtons;
+    private Basket myBasket;
     private FiltratedSections filtrated = new FiltratedSections();
     public final int stageWidth = 1920;
     private Button nextButton;
     private Button loadScheduleButton;
 
-    public FirstScene(Button next, Button load) {
+    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons) {
         this.nextButton = next;
         this.loadScheduleButton = load;
+        this.myBasket = basket;
+        this.addButtons = addButtons;
+        this.removeButtons = removeButtons;
     }
 
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
@@ -37,16 +40,12 @@ public class FirstScene {
         // Converting the List to 2DArray
         ArrayList<Section> filtired = filtrated.getFiltratedSections();
         String[][] filtiredIn2D = new String[filtired.size() + 1][10];
-        filtiredIn2D[0][0] = "Course-Sec";
-        filtiredIn2D[0][1] = "Activity";
-        filtiredIn2D[0][2] = "CRN";
-        filtiredIn2D[0][3] = "Course Name";
-        filtiredIn2D[0][4] = "Instructor";
-        filtiredIn2D[0][5] = "Day";
-        filtiredIn2D[0][6] = "Time";
-        filtiredIn2D[0][7] = "Location";
-        filtiredIn2D[0][8] = "Status";
-        filtiredIn2D[0][9] = "Waitlist";
+
+        String[] titles = {"Course-Sec","Activity","CRN","Course Name","Instructor","Day","Time","Location","Status","Waitlist"};
+        for (int i = 0; i<titles.length; i++) {
+            filtiredIn2D[0][i] = titles[i];
+        }
+
         for (int i = 0; i <filtired.size(); i++) {
             filtiredIn2D[i + 1][0] = filtired.get(i).getCourse_section();
             filtiredIn2D[i + 1][1] = filtired.get(i).getActivity();
@@ -183,24 +182,15 @@ public class FirstScene {
 
     class AddHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
-            Button numberButton = (Button) e.getTarget();
-            numberButton.setDisable(true);
-            (removeButtons.get(Integer.parseInt(numberButton.getId()) - 1)).setDisable(false); //Enabling the remove
-
-            System.out.println("ADD " + numberButton.getId()); //Add the section to the basket
-            myBasket.addSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
-            System.out.println(myBasket.getSections());
+            int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
+            myBasket.addSection(filtrated.getFiltratedSections().get(indexOfButton), indexOfButton, removeButtons, addButtons);
         }
     }
 
     class RemoveHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
-            Button numberButton = (Button) e.getTarget();
-            numberButton.setDisable(true);
-            (addButtons.get(Integer.parseInt(numberButton.getId()) - 1)).setDisable(false); //Enabling the add
-
-            System.out.println("Remove " + numberButton.getId()); //Remove the section from the basket
-            myBasket.removeSection(filtrated.getFiltratedSections().get(Integer.parseInt(numberButton.getId()) - 1));
+            int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
+            myBasket.removeSection(filtrated.getFiltratedSections().get(indexOfButton), indexOfButton, removeButtons, addButtons);
         }
     }
 }
