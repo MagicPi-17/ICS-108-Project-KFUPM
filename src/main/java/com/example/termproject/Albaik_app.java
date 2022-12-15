@@ -4,6 +4,7 @@ import com.example.termproject.Scenes.FirstScene;
 import com.example.termproject.Scenes.SecondScene;
 import com.example.termproject.classes.Basket;
 import com.example.termproject.classes.Schedule;
+import com.example.termproject.classes.Section;
 import com.example.termproject.dataHandlerClasses.DataHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -20,21 +21,17 @@ import java.util.ArrayList;
 
 
 public class Albaik_app extends Application {
+    protected final  int screenWidth = 1920;
+    protected final  int screenHeight = 1000;
+    Schedule schedule = new Schedule("221");
+    Basket basket = new Basket();
+    protected Stage stage;
     protected final Button btLoadSchedule = new Button("Load saved schedule");
     protected final Button btSaveSchedule = new Button("Save schedule");
     protected final  Button btNext = new Button("Next");
     protected final Button btPrevious = new Button("Previous");
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
-
-    protected final  int screenWidth = 1920;
-    protected final  int screenHeight = 1000;
-
-
-
-    Schedule schedule = new Schedule("221");
-    Basket basket = new Basket();
-    protected Stage stage;
     private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons);
     private SecondScene secondScene;
 
@@ -67,7 +64,7 @@ public class Albaik_app extends Application {
     }
 
     public void buttonsSetup() {
-        ButtonHandler handler = new ButtonHandler();//adding handlers to the buttons
+        ButtonHandler handler = new ButtonHandler(); //adding handlers to the buttons
         btNext.setOnAction(handler);
         btPrevious.setOnAction(handler);
         btLoadSchedule.setOnAction(handler);
@@ -90,7 +87,8 @@ public class Albaik_app extends Application {
             }
 
             else if (actionEvent.getSource() == btPrevious) {
-                basket.clearBasket(removeButtons, addButtons);
+                basket.clearBasket(removeButtons, addButtons); //clear basket and schedule when returning to scene one
+                schedule.getSections().clear();
                 setFirstScene();
             }
             else if (actionEvent.getSource() == btLoadSchedule) {

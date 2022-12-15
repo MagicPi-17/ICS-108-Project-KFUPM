@@ -20,7 +20,7 @@ public class FirstScene {
     private ArrayList<Button> addButtons;
     private ArrayList<Button> removeButtons;
     private Basket myBasket;
-    private FiltratedSections filtrated = new FiltratedSections();
+    private ArrayList<Section> filtrated;
     public final int stageWidth = 1920;
     private Button nextButton;
     private Button loadScheduleButton;
@@ -31,6 +31,7 @@ public class FirstScene {
         this.myBasket = basket;
         this.addButtons = addButtons;
         this.removeButtons = removeButtons;
+        this.filtrated = getFiltratedSections();
     }
 
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
@@ -38,25 +39,27 @@ public class FirstScene {
         finalPane.setPrefWidth(stageWidth);
         finalPane.setAlignment(Pos.BASELINE_CENTER);
         // Converting the List to 2DArray
-        ArrayList<Section> filtired = filtrated.getFiltratedSections();
-        String[][] filtiredIn2D = new String[filtired.size() + 1][10];
+        String[][] filtiredIn2D = new String[filtrated.size() + 1][10];
+
+        AddHandlerClass addingHandler = new AddHandlerClass(); //Creating handlers for adding and removing
+        RemoveHandlerClass removingHandler = new RemoveHandlerClass();
 
         String[] titles = {"Course-Sec","Activity","CRN","Course Name","Instructor","Day","Time","Location","Status","Waitlist"};
         for (int i = 0; i<titles.length; i++) {
             filtiredIn2D[0][i] = titles[i];
         }
 
-        for (int i = 0; i <filtired.size(); i++) {
-            filtiredIn2D[i + 1][0] = filtired.get(i).getCourse_section();
-            filtiredIn2D[i + 1][1] = filtired.get(i).getActivity();
-            filtiredIn2D[i + 1][2] = filtired.get(i).getCRN();
-            filtiredIn2D[i + 1][3] = filtired.get(i).getCourseName();
-            filtiredIn2D[i + 1][4] = filtired.get(i).getInstructor();
-            filtiredIn2D[i + 1][5] = filtired.get(i).getDays();
-            filtiredIn2D[i + 1][6] = filtired.get(i).getTime();
-            filtiredIn2D[i + 1][7] = filtired.get(i).getLocation();
-            filtiredIn2D[i + 1][8] = filtired.get(i).getStatus();
-            filtiredIn2D[i + 1][9] = filtired.get(i).getWaitlist();
+        for (int i = 0; i <filtrated.size(); i++) {
+            filtiredIn2D[i + 1][0] = filtrated.get(i).getCourse_section();
+            filtiredIn2D[i + 1][1] = filtrated.get(i).getActivity();
+            filtiredIn2D[i + 1][2] = filtrated.get(i).getCRN();
+            filtiredIn2D[i + 1][3] = filtrated.get(i).getCourseName();
+            filtiredIn2D[i + 1][4] = filtrated.get(i).getInstructor();
+            filtiredIn2D[i + 1][5] = filtrated.get(i).getDays();
+            filtiredIn2D[i + 1][6] = filtrated.get(i).getTime();
+            filtiredIn2D[i + 1][7] = filtrated.get(i).getLocation();
+            filtiredIn2D[i + 1][8] = filtrated.get(i).getStatus();
+            filtiredIn2D[i + 1][9] = filtrated.get(i).getWaitlist();
         }
 
         GridPane grid = new GridPane();
@@ -75,8 +78,7 @@ public class FirstScene {
                 Button addBtn = new Button("Add");
                 addBtn.setPadding(new Insets(15, 15, 15, 15));
                 addBtn.setId(Integer.toString(i)); //Give each button its id
-                AddHandlerClass handler1 = new AddHandlerClass();
-                addBtn.setOnAction(handler1);
+                addBtn.setOnAction(addingHandler);
                 addBtn.setPrefWidth(70);
                 addBtn.setFont((Font.font ("Verdana", 14)));
                 grid.add(addBtn, filtiredIn2D[i].length, i);
@@ -85,8 +87,7 @@ public class FirstScene {
                 Button removeBtn = new Button("Remove");
                 removeBtn.setPadding(new Insets(15, 15, 15, 15));
                 removeBtn.setId(Integer.toString(i)); //Give each button its id
-                RemoveHandlerClass handler2 = new RemoveHandlerClass();
-                removeBtn.setOnAction(handler2);
+                removeBtn.setOnAction(removingHandler);
                 removeBtn.setDisable(true);
                 removeBtn.setPrefWidth(100);
                 removeBtn.setFont((Font.font ("Verdana", 15)));
@@ -162,35 +163,31 @@ public class FirstScene {
     }
 
 
-    class FiltratedSections { //To get the allowed sections to register
-        private ArrayList<Section> filtrated;
-        FiltratedSections() {
-            try {
-                ArrayList<Section> filtired = DataHandler.getAllowedSections();
-                this.filtrated = filtired;
-            } catch (FileNotFoundException e) {
-                System.out.println("ERROR IN GETTING FILTIRED SECTIONS");
-            }
-        }
 
-        public ArrayList<Section> getFiltratedSections() {
-            return this.filtrated;
+    public ArrayList<Section> getFiltratedSections() {
+        try {
+            ArrayList<Section> filtrated = DataHandler.getAllowedSections();
+            return filtrated;
+        } catch (Exception e) {
+            System.out.println("ERROR IN GETTING FILTRATED SECTIONS " + e.getMessage());
         }
+        return filtrated;
     }
+
 
 
 
     class AddHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
-            myBasket.addSection(filtrated.getFiltratedSections().get(indexOfButton), indexOfButton, removeButtons, addButtons);
+            myBasket.addSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
         }
     }
 
     class RemoveHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
-            myBasket.removeSection(filtrated.getFiltratedSections().get(indexOfButton), indexOfButton, removeButtons, addButtons);
+            myBasket.removeSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
         }
     }
 }
