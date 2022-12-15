@@ -86,18 +86,6 @@ public class SecondScene {
         buttons.getChildren().add(btPrevious);
         buttons.getChildren().add(btSaveSchedule);
 
-        Boolean check = false;
-        for(Section section : schedule.getSections().keySet()) {
-            check = false;
-            for(Section basketSection : basket.getSections()){
-                if(section.getCRN().equals(basketSection.getCRN())) {
-                    check = true;
-                    break;
-                }
-            }
-            if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
-
-        }
 
         VBox sections = new VBox();
         for(Section section : basket.getSections()) {

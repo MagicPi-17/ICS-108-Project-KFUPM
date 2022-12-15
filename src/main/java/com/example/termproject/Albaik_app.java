@@ -101,6 +101,22 @@ public class Albaik_app extends Application {
                 try {
                     schedule = DataHandler.readSchedule(dataFileName);
                     secondScene.setSchedule(schedule);
+
+                    Boolean check = false;
+                    for(Section section : schedule.getSections().keySet()) {
+                        check = false;
+                        for(Section basketSection : basket.getSections()){
+                            if(section.getCRN().equals(basketSection.getCRN())) {
+                                check = true;
+                                break;
+                            }
+                        }
+                        if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
+                    }
+                    addButtons.clear();
+                    removeButtons.clear();
+                    setFirstScene();
+                    firstScene.fixAddRemoveButtons(clickedButtonsIDs);
                 } catch (IOException e) {
                     try {
                         DataHandler.writeSchedule(dataFileName, schedule);
