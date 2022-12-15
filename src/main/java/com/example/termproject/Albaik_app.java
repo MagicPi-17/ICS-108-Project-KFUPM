@@ -33,7 +33,8 @@ public class Albaik_app extends Application {
     protected final Button btPrevious = new Button("Previous");
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
-    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons);
+    private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
+    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons, clickedButtonsIDs);
     private String dataFileName = "scheduleData.dat";
     private SecondScene secondScene;
 
@@ -89,9 +90,10 @@ public class Albaik_app extends Application {
             }
 
             else if (actionEvent.getSource() == btPrevious) {
-                basket.clearBasket(removeButtons, addButtons); //clear basket and schedule when returning to scene one
-                schedule.getSections().clear();
+                addButtons.clear();
+                removeButtons.clear();
                 setFirstScene();
+                firstScene.fixAddRemoveButtons(clickedButtonsIDs);
             }
             else if (actionEvent.getSource() == btLoadSchedule) {
                 try {
