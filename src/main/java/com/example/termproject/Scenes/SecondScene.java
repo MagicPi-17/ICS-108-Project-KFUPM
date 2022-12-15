@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,6 +38,48 @@ public class SecondScene {
 
     }
 
+
+    public Scene getSecondScene() {
+        HBox hBox = new HBox(1920 - 175 * 6 - 540);
+        HBox schedule = getSchedule();
+        VBox basket = getBasket();
+
+        hBox.getChildren().add(schedule);
+        hBox.getChildren().add(basket);
+
+        Scene scene = new Scene(hBox, screenWidth, screenHeight);
+        return scene;
+    }
+
+
+    public VBox getBasket(){
+        VBox vBox = new VBox(10);
+        HBox buttons = new HBox();
+        buttons.setSpacing(100);
+        buttons.getChildren().add(btPrevious);
+        buttons.getChildren().add(btSaveSchedule);
+
+
+        VBox sections = new VBox();
+        for(Section section : basket.getSections()) {
+            Button sectionBtn = new Button(section.getScheduleText());
+            sectionBtn.setFont(Font.font ("Verdana", 15));
+            sectionBtn.setPrefSize(540, 100);
+            sectionBtn.setOnAction(new addHandlerClass(section));
+            sections.getChildren().add(sectionBtn);
+        }
+
+        BorderPane borderPane = new BorderPane(sections);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(borderPane);
+        scrollPane.prefWidthProperty().bind(borderPane.widthProperty());
+        scrollPane.prefHeightProperty().bind(borderPane.heightProperty());
+        vBox.getChildren().add(buttons);
+        vBox.getChildren().add(scrollPane);
+
+        return vBox;
+
+    }
 
     public StackPane createShapeWithText(Double height, Double width, Color color, String text) {
         StackPane stackPane = new StackPane();
@@ -71,7 +114,7 @@ public class SecondScene {
 
         return stackPane;
     }
-    public Scene getSchedule() {
+    public HBox getSchedule() {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
         String[] times = {"","7 am", "8 pm", "9 am", "10 am", "11 am", "12 pm",
                 "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"};
@@ -90,6 +133,7 @@ public class SecondScene {
 
         HBox hBox = new HBox();
 
+
         VBox timeBoxes = new VBox();
         for(String time : times) {
             timeBoxes.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,time));
@@ -102,8 +146,9 @@ public class SecondScene {
             flowPane.setVgap(0);
 
             flowPane.getChildren().add(createShapeWithText(height, width, Color.LIGHTCORAL,days[i]));
+            System.out.println(sectionsByDay[i].size() + " size");
             for(Section section : sectionsByDay[i]) {
-                System.out.println(section.getScheduleText());
+                System.out.println(section.getScheduleText() + " " + i);
                 timeDifference = previousSection.getTimeDifference(section);
                 if (timeDifference > 0) {
                     flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, "break" + timeDifference));
@@ -112,16 +157,18 @@ public class SecondScene {
                 previousSection = section;
 
             }
+
+            flowPane.setMaxHeight(800);
             hBox.getChildren().add(flowPane);
 
         }
 
-        BorderPane borderPaneMain = new BorderPane();
-        borderPaneMain.setLeft(timeBoxes);
-        borderPaneMain.setCenter(hBox);
+        HBox borderPanreMain = new HBox(0);
+        borderPanreMain.getChildren().add(timeBoxes);
+        borderPanreMain.getChildren().add(hBox);
 
-        Scene scene = new Scene(borderPaneMain, screenWidth, screenHeight);
-        return scene;
+
+        return borderPanreMain;
 
 
     }
@@ -134,7 +181,20 @@ public class SecondScene {
         }
         public void handle(ActionEvent e) {
             schedule.removeSection(section);
-            stage.setScene(getSchedule());
+            stage.setScene(getSecondScene());
+
+        }
+    }
+
+    class addHandlerClass implements EventHandler<ActionEvent> {
+        Section section;
+
+        addHandlerClass(Section section){
+            this.section = section;
+        }
+        public void handle(ActionEvent e) {
+            schedule.addSectionToDays(section);
+            stage.setScene(getSecondScene());
 
         }
     }

@@ -54,11 +54,11 @@ public class Schedule {
         ArrayList<Section> thursSections = new ArrayList<>();
         for(Section section : sections.keySet()) {
             for(Character day : section.getDays().toCharArray()) {
-                if(day == 'U') sundaySections.add(section);
-                else if(day == 'M') mondaySections.add(section);
-                else if(day == 'T') mondaySections.add(section);
-                else if(day == 'W') mondaySections.add(section);
-                else if(day == 'R') mondaySections.add(section);
+                if(day.equals('U')) sundaySections.add(section);
+                else if(day.equals('M')) mondaySections.add(section);
+                else if(day.equals('T')) tuesSections.add(section);
+                else if(day.equals('W')) wednesdaySections.add(section);
+                else if(day.equals('R')) thursSections.add(section);
             }
         }
         sectionsByDays[0] = sundaySections;
