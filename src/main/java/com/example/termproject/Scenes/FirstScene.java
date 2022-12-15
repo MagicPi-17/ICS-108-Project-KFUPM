@@ -24,14 +24,16 @@ public class FirstScene {
     public final int stageWidth = 1920;
     private Button nextButton;
     private Button loadScheduleButton;
+    private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
 
-    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons) {
+    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs) {
         this.nextButton = next;
         this.loadScheduleButton = load;
         this.myBasket = basket;
         this.addButtons = addButtons;
         this.removeButtons = removeButtons;
         this.filtrated = getFiltratedSections();
+        this.clickedButtonsIDs = clickedButtonsIDs;
     }
 
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
@@ -162,6 +164,13 @@ public class FirstScene {
         return this.myBasket.getSections();
     }
 
+    public void fixAddRemoveButtons(ArrayList<String> arr) {
+        for (int i = 0; i<arr.size(); i++) {
+            removeButtons.get(Integer.parseInt(arr.get(i))).setDisable(false);
+            addButtons.get(Integer.parseInt(arr.get(i))).setDisable(true);
+        }
+    }
+
 
 
     public ArrayList<Section> getFiltratedSections() {
@@ -181,6 +190,7 @@ public class FirstScene {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
             myBasket.addSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
+            clickedButtonsIDs.add(Integer.toString(indexOfButton));
         }
     }
 
@@ -188,6 +198,7 @@ public class FirstScene {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
             myBasket.removeSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
+            clickedButtonsIDs.remove(Integer.toString(indexOfButton));
         }
     }
 }
