@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,8 +22,13 @@ public class FirstScene {
     private Basket myBasket = new Basket();
     private FiltratedSections filtrated = new FiltratedSections();
     public final int stageWidth = 1920;
+    private Button nextButton;
+    private Button loadScheduleButton;
 
-
+    public FirstScene(Button next, Button load) {
+        this.nextButton = next;
+        this.loadScheduleButton = load;
+    }
 
     public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
         HBox finalPane = new HBox();
@@ -111,11 +115,9 @@ public class FirstScene {
         degreePlanTitle.setFont(Font.font ("Verdana", 22));
         borderPane.setCenter(degreePlanTitle);
         //Buttons
-        Button nextButton = new Button("Next");
         nextButton.setPrefSize(220, 100);
         nextButton.setFont((Font.font ("Verdana", 20)));
 
-        Button loadScheduleButton = new Button("Load Saved Schedule");
         loadScheduleButton.setPrefSize(220, 100);
         loadScheduleButton.setFont((Font.font ("Verdana", 18)));
         loadScheduleButton.setPadding(new Insets(0,5,0,5));
