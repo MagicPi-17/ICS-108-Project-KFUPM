@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SecondScene {
     private Button btPrevious;
@@ -25,6 +26,8 @@ public class SecondScene {
     private Schedule schedule;
     private Basket basket;
     private Stage stage;
+    private HashMap<String, Button> sectionsButtons;
+    private VBox currentBasket;
     protected final  int screenWidth = 1920;
     protected final  int screenHeight = 1000;
 
@@ -35,6 +38,7 @@ public class SecondScene {
         this.basket = basket;
         this.btPrevious = btPrevious;
         this.btSaveSchedule = btSaveSchedule;
+        sectionsButtons = new HashMap<>();
 
     }
 
@@ -42,10 +46,21 @@ public class SecondScene {
     public Scene getSecondScene() {
         HBox hBox = new HBox(1920 - 175 * 6 - 540);
         HBox schedule = getSchedule();
-        VBox basket = getBasket();
+        currentBasket = getBasket();
 
         hBox.getChildren().add(schedule);
-        hBox.getChildren().add(basket);
+        hBox.getChildren().add(currentBasket);
+
+        Scene scene = new Scene(hBox, screenWidth, screenHeight);
+        return scene;
+    }
+
+    public Scene updateSecondScene() {
+        HBox hBox = new HBox(1920 - 175 * 6 - 540);
+        HBox schedule = getSchedule();
+
+        hBox.getChildren().add(schedule);
+        hBox.getChildren().add(currentBasket);
 
         Scene scene = new Scene(hBox, screenWidth, screenHeight);
         return scene;
@@ -67,6 +82,8 @@ public class SecondScene {
             sectionBtn.setPrefSize(540, 100);
             sectionBtn.setOnAction(new addHandlerClass(section));
             sections.getChildren().add(sectionBtn);
+
+            sectionsButtons.put(section.getCourse_section(), sectionBtn);
         }
 
         BorderPane borderPane = new BorderPane(sections);
@@ -181,7 +198,8 @@ public class SecondScene {
         }
         public void handle(ActionEvent e) {
             schedule.removeSection(section);
-            stage.setScene(getSecondScene());
+            sectionsButtons.get(section.getCourse_section()).setDisable(false);
+            stage.setScene(updateSecondScene());
 
         }
     }
@@ -193,8 +211,25 @@ public class SecondScene {
             this.section = section;
         }
         public void handle(ActionEvent e) {
-            schedule.addSectionToDays(section);
-            stage.setScene(getSecondScene());
+            for(Section registeredSection : schedule.getSections().keySet()) {
+                if(registeredSection.getCourse_section().split("-")[0].equals(section.getCourse_section().split("-")[0])) {
+                    schedule.removeSection(registeredSection);
+                    Boolean isAdd = schedule.addSectionToDays(section);
+                    if(!isAdd) {
+                        schedule.addSectionToDays(registeredSection);
+                    }
+                    else {
+                    sectionsButtons.get(section.getCourse_section()).setDisable(true);
+                    sectionsButtons.get(registeredSection.getCourse_section()).setDisable(false);
+                    }
+                    stage.setScene(updateSecondScene());
+                    return;
+
+                }
+            }
+            Boolean isAdd = schedule.addSectionToDays(section);
+            if (isAdd) { sectionsButtons.get(section.getCourse_section()).setDisable(true); }
+            stage.setScene(updateSecondScene());
 
         }
     }
