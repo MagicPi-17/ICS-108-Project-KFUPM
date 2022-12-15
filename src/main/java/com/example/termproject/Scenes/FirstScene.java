@@ -193,16 +193,14 @@ public class FirstScene {
     class AddHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
-            myBasket.addSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
-            clickedButtonsIDs.add(Integer.toString(indexOfButton));
+            myBasket.addSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons, clickedButtonsIDs);
         }
     }
 
     class RemoveHandlerClass implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
-            myBasket.removeSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
-            clickedButtonsIDs.remove(Integer.toString(indexOfButton));
+            myBasket.removeSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons, clickedButtonsIDs);
         }
     }
 }
