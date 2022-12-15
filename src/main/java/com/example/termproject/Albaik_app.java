@@ -9,7 +9,6 @@ import com.example.termproject.dataHandlerClasses.DataHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -32,7 +31,9 @@ public class Albaik_app extends Application {
     protected final Button btPrevious = new Button("Previous");
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
-    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons);
+    private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
+
+    private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons, clickedButtonsIDs);
     private SecondScene secondScene;
 
 
@@ -85,11 +86,11 @@ public class Albaik_app extends Application {
             if (actionEvent.getSource() == btNext) {
                 stage.setScene(secondScene.getSecondScene());
             }
-
             else if (actionEvent.getSource() == btPrevious) {
-                basket.clearBasket(removeButtons, addButtons); //clear basket and schedule when returning to scene one
-                schedule.getSections().clear();
+                addButtons.clear();
+                removeButtons.clear();
                 setFirstScene();
+                firstScene.fixAddRemoveButtons(clickedButtonsIDs);
             }
             else if (actionEvent.getSource() == btLoadSchedule) {
             }
