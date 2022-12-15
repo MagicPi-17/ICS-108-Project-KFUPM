@@ -26,10 +26,10 @@ public class FirstScene {
     private Button nextButton;
     private Button loadScheduleButton;
     private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
-    private HashMap<Section, Integer> sectionsIndexes = new HashMap<>();
+    private HashMap<String, Integer> sectionsIndexes = new HashMap<>();
 
 
-    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs, HashMap<Section, Integer> sectionsIndexes) {
+    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs, HashMap<String, Integer> sectionsIndexes) {
         this.nextButton = next;
         this.loadScheduleButton = load;
         this.myBasket = basket;
@@ -67,7 +67,7 @@ public class FirstScene {
             filtiredIn2D[i + 1][8] = filtrated.get(i).getStatus();
             filtiredIn2D[i + 1][9] = filtrated.get(i).getWaitlist();
 
-            sectionsIndexes.put(filtrated.get(i), i);
+            sectionsIndexes.put(filtrated.get(i).getCRN(), i);
         }
 
         GridPane grid = new GridPane();

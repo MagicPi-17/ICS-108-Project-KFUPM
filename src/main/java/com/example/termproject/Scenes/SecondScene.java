@@ -27,17 +27,28 @@ public class SecondScene {
     private Basket basket;
     private Stage stage;
     private HashMap<String, Button> sectionsButtons;
+    private HashMap<String, Integer> sectionsIndexes;
+    private ArrayList<Button> addButtons = new ArrayList<>();
+    private ArrayList<Button> removeButtons = new ArrayList<>();
+    private ArrayList<String> clickedButtonsIDs;
+
     private VBox currentBasket;
     protected final  int screenWidth = 1920;
     protected final  int screenHeight = 1000;
 
 
-    public SecondScene(Stage stage,Schedule schedule, Basket basket,Button btPrevious, Button btSaveSchedule) {
+    public SecondScene(Stage stage,Schedule schedule, Basket basket,Button btPrevious,
+                       Button btSaveSchedule, HashMap<String, Integer> sectionsIndexes,
+                       ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs) {
         this.stage = stage;
         this.schedule = schedule;
         this.basket = basket;
         this.btPrevious = btPrevious;
         this.btSaveSchedule = btSaveSchedule;
+        this.sectionsIndexes = sectionsIndexes;
+        this.addButtons = addButtons;
+        this.removeButtons = removeButtons;
+        this.clickedButtonsIDs = clickedButtonsIDs;
         sectionsButtons = new HashMap<>();
 
     }
@@ -75,12 +86,17 @@ public class SecondScene {
         buttons.getChildren().add(btPrevious);
         buttons.getChildren().add(btSaveSchedule);
 
-
+        Boolean check = false;
         for(Section section : schedule.getSections().keySet()) {
-            System.out.println(basket.getSections().indexOf(section));
-            if(basket.getSections().indexOf(section) < 0) {
-
+            check = false;
+            for(Section basketSection : basket.getSections()){
+                if(section.getCRN().equals(basketSection.getCRN())) {
+                    check = true;
+                    break;
+                }
             }
+            if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
+
         }
 
         VBox sections = new VBox();

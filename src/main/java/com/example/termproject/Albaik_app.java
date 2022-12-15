@@ -35,7 +35,7 @@ public class Albaik_app extends Application {
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
-    private HashMap<Section, Integer> sectionsIndexes = new HashMap<>();
+    private HashMap<String, Integer> sectionsIndexes = new HashMap<>();
     private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons, clickedButtonsIDs, sectionsIndexes);
     private String dataFileName = "scheduleData.dat";
     private SecondScene secondScene;
@@ -45,7 +45,7 @@ public class Albaik_app extends Application {
     @Override // Override the start method in the Application class
     public void start(Stage stage) throws FileNotFoundException {
         this.stage = stage;
-        secondScene = new SecondScene(stage,schedule, basket, btPrevious, btSaveSchedule);
+        secondScene = new SecondScene(stage,schedule, basket, btPrevious, btSaveSchedule, sectionsIndexes, addButtons,  removeButtons, clickedButtonsIDs);
 
         buttonsSetup(); //Gives handler to each button
         setFirstScene(); //First scene
