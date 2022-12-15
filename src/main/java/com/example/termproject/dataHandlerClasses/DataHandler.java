@@ -1,9 +1,6 @@
 package com.example.termproject.dataHandlerClasses;
 
-import com.example.termproject.classes.CSVReader;
-import com.example.termproject.classes.Course;
-import com.example.termproject.classes.Section;
-import com.example.termproject.classes.Student;
+import com.example.termproject.classes.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -81,24 +78,22 @@ public class DataHandler {
         return  allowedSections;
     }
 
-    public static void writeObject(String fileName, Object object) throws IOException {
+    public static void writeSchedule(String fileName, Schedule schedule) throws IOException {
         File sFile = new File(fileName);
 
         FileOutputStream outputFile = new FileOutputStream(sFile);
         ObjectOutputStream output = new ObjectOutputStream(outputFile);
 
-        output.writeObject(object);
+        output.writeObject(schedule);
         output.close();
 
     }
 
-    public static void readObject(String fileName) throws IOException, ClassNotFoundException {
+    public static Schedule readSchedule(String fileName) throws IOException, ClassNotFoundException {
         File sFile = new File(fileName);
         FileInputStream inputFile = new FileInputStream(sFile);
         ObjectInputStream input = new ObjectInputStream(inputFile);
-
-        input.readObject();
-        input.close();
+        return (Schedule) input.readObject();
 
 
 

@@ -2,10 +2,11 @@ package com.example.termproject.classes;
 import com.example.termproject.dataHandlerClasses.DataHandler;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.*;
 
 
-class SectionComparator implements Comparator<Section> {
+class SectionComparator implements Comparator<Section>, Serializable {
     @Override
     public int compare(Section o1, Section o2) {
         int time1 = Integer.parseInt(o1.getTime().split("-")[0]);
@@ -14,7 +15,7 @@ class SectionComparator implements Comparator<Section> {
     }
 }
 
-public class Schedule {
+public class Schedule implements Serializable {
 
     public static void main(String[] args) throws FileNotFoundException {
         Schedule schedule = new Schedule("221");

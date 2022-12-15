@@ -6,7 +6,9 @@ package com.example.termproject.classes;
 
 import javafx.scene.paint.Color;
 
-public class Section implements Comparable<Section> {
+import java.io.Serializable;
+
+public class Section implements Comparable<Section>, Serializable {
     String course_section;
     String activity;
     String CRN;
@@ -17,7 +19,7 @@ public class Section implements Comparable<Section> {
     String location;
     String status;
     String waitlist;
-    Color color;
+    Double[] color;
 
     public Section(String course_section, String time) {
         this(course_section, "none", "none","none","none","none",time,"none","none","none");
@@ -36,7 +38,7 @@ public class Section implements Comparable<Section> {
         this.location = Location;
         this.status = status;
         this.waitlist = waitlist;
-        this.color = new Color(Math.random() * 0.7,Math.random() * 0.7,Math.random() * 0.7, Math.random() * 0.6);
+        this.color = new Double[]{Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.6};
     }
 
     public static void main(String[] args) {
@@ -84,7 +86,7 @@ public class Section implements Comparable<Section> {
     }
 
 
-    public Color getColor() {return color;}
+    public Double[] getColor() {return color;}
 
     public String getActivity() {
         return activity;

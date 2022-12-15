@@ -42,6 +42,7 @@ public class SecondScene {
 
     }
 
+    public void setSchedule(Schedule schedule) {this.schedule = schedule;}
 
     public Scene getSecondScene() {
         HBox hBox = new HBox(1920 - 175 * 6 - 540);
@@ -113,7 +114,9 @@ public class SecondScene {
     public StackPane createCourseText(Section section,Double height, Double width) {
         StackPane stackPane = new StackPane();
         BorderPane borderPane = new BorderPane();
-        Rectangle rectangle = new Rectangle(width, height, section.getColor()); rectangle.setStroke(Color.BLACK);
+        Double[] colorValues = section.getColor();
+        Color color = new Color(colorValues[0], colorValues[1], colorValues[2], colorValues[3]);
+        Rectangle rectangle = new Rectangle(width, height, color); rectangle.setStroke(Color.BLACK);
 
         Label word = new Label(section.getScheduleText());
 

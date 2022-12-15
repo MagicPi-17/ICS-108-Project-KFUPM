@@ -17,6 +17,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -33,6 +34,7 @@ public class Albaik_app extends Application {
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private FirstScene firstScene = new FirstScene(btNext, btLoadSchedule, basket, addButtons, removeButtons);
+    private String dataFileName = "scheduleData.dat";
     private SecondScene secondScene;
 
 
@@ -92,8 +94,25 @@ public class Albaik_app extends Application {
                 setFirstScene();
             }
             else if (actionEvent.getSource() == btLoadSchedule) {
+                try {
+                    schedule = DataHandler.readSchedule(dataFileName);
+                    secondScene.setSchedule(schedule);
+                } catch (IOException e) {
+                    try {
+                        DataHandler.writeSchedule(dataFileName, schedule);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             else if (actionEvent.getSource() == btSaveSchedule) {
+                try {
+                    DataHandler.writeSchedule(dataFileName, schedule);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
