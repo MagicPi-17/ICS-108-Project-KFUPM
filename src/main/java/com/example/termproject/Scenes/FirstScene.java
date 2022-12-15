@@ -26,7 +26,7 @@ public class FirstScene {
     private Button loadScheduleButton;
     private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
 
-    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs) {
+    public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons) {
         this.nextButton = next;
         this.loadScheduleButton = load;
         this.myBasket = basket;
@@ -190,7 +190,6 @@ public class FirstScene {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
             myBasket.addSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
-            clickedButtonsIDs.add(Integer.toString(indexOfButton));
         }
     }
 
@@ -198,7 +197,6 @@ public class FirstScene {
         public void handle(ActionEvent e) {
             int indexOfButton = Integer.parseInt(((Button) e.getTarget()).getId()) - 1;
             myBasket.removeSection(filtrated.get(indexOfButton), indexOfButton, removeButtons, addButtons);
-            clickedButtonsIDs.remove(Integer.toString(indexOfButton));
         }
     }
 }
