@@ -17,32 +17,17 @@ class SectionComparator implements Comparator<Section>, Serializable {
 
 public class Schedule implements Serializable {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        Schedule schedule = new Schedule("221");
-        System.out.println(DataHandler.getAllowedSections().get(3).toString());
-        System.out.println(DataHandler.getAllowedSections().get(1).toString());
-
-        schedule.addSectionToDays(DataHandler.getAllowedSections().get(1));
-        schedule.addSectionToDays(DataHandler.getAllowedSections().get(3));
-
-        for(Section section : schedule.getSections().keySet()) {
-            System.out.println("deubg " + section);
-        }
-
-
-
-    }
-    TreeMap<Section, String> sections;
+    ArrayList<Section> sections;
     String term;
 
     public Schedule(String term) {
-        sections = new TreeMap<>(new SectionComparator());
+        sections = new ArrayList<Section>();
         this.term = term;}
 
 
     public String getTerm() {return term;}
 
-    public TreeMap<Section, String> getSections() {return sections;}
+    public ArrayList<Section> getSections() {return sections;}
 
 
 
@@ -53,7 +38,9 @@ public class Schedule implements Serializable {
         ArrayList<Section> tuesSections = new ArrayList<>();
         ArrayList<Section> wednesdaySections = new ArrayList<>();
         ArrayList<Section> thursSections = new ArrayList<>();
-        for(Section section : sections.keySet()) {
+
+        Collections.sort(sections, new SectionComparator());
+        for(Section section : sections) {
             for(Character day : section.getDays().toCharArray()) {
                 if(day.equals('U')) sundaySections.add(section);
                 else if(day.equals('M')) mondaySections.add(section);
@@ -68,13 +55,13 @@ public class Schedule implements Serializable {
         sectionsByDays[3] = wednesdaySections;
         sectionsByDays[4] = thursSections;
 
+
         return  sectionsByDays;
     }
 
     public boolean addSectionToDays(Section section) {
-        System.out.println(checkTime(section));
         if (checkTime(section)) {
-            sections.put(section, section.getDays());
+            sections.add(section);
             return true;
         }
         else {
@@ -89,7 +76,7 @@ public class Schedule implements Serializable {
     public Boolean checkTime(Section section) {
         char[] section1Days = section.getDays().toCharArray();
         Arrays.sort(section1Days);
-        for(Section registeredSection : sections.keySet()) {
+        for(Section registeredSection : sections) {
             for(Character day : registeredSection.getDays().toCharArray()) {
                 if (Arrays.binarySearch(section1Days,day) >= 0) {
                     if (section.getTimeDifference(registeredSection) == -1) {

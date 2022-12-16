@@ -31,7 +31,6 @@ public class SecondScene {
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
     private ArrayList<String> clickedButtonsIDs;
-
     private VBox currentBasket;
     protected final  int screenWidth = 1920;
     protected final  int screenHeight = 1000;
@@ -56,7 +55,7 @@ public class SecondScene {
     public void setSchedule(Schedule schedule) {this.schedule = schedule;}
 
     public Scene getSecondScene() {
-        HBox hBox = new HBox(1920 - 175 * 6 - 540);
+        HBox hBox = new HBox(1920 - 200 * 6 - 540);
         HBox schedule = getSchedule();
         currentBasket = getBasket();
 
@@ -68,7 +67,7 @@ public class SecondScene {
     }
 
     public Scene updateSecondScene() {
-        HBox hBox = new HBox(1920 - 175 * 6 - 540);
+        HBox hBox = new HBox(1920 - 200 * 6 - 540);
         HBox schedule = getSchedule();
 
         hBox.getChildren().add(schedule);
@@ -98,7 +97,7 @@ public class SecondScene {
             sectionsButtons.put(section.getCourse_section(), sectionBtn);
         }
 
-        for(Section section : schedule.getSections().keySet()) {
+        for(Section section : schedule.getSections()) {
             sectionsButtons.get(section.getCourse_section()).setDisable(true);
         }
 
@@ -155,15 +154,11 @@ public class SecondScene {
                 "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"};
 
 
-        double width = 175;
-        double height = 80;
+        double width = 200;
+        double height = 975/12;
         double scaleCorrection = (height+0.5)/60;
 
-        System.out.println("start");
-        for(Section section : schedule.getSections().keySet()) {
-            System.out.println("1" + section.toString());
-
-        }        ArrayList<Section>[] sectionsByDay = schedule.getScheduleByDays();
+        ArrayList<Section>[] sectionsByDay = schedule.getScheduleByDays();
         int timeDifference;
 
         HBox hBox = new HBox();
@@ -179,21 +174,21 @@ public class SecondScene {
             FlowPane flowPane = new FlowPane();
             flowPane.setOrientation(Orientation.VERTICAL);
             flowPane.setVgap(0);
-
             flowPane.getChildren().add(createShapeWithText(height, width, Color.LIGHTCORAL,days[i]));
-            System.out.println(sectionsByDay[i].size() + " size");
             for(Section section : sectionsByDay[i]) {
-                System.out.println(section.getScheduleText() + " " + i);
                 timeDifference = previousSection.getTimeDifference(section);
                 if (timeDifference > 0) {
-                    flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, "break" + timeDifference));
+                    String hours = (timeDifference/60 > 0) ? timeDifference/60+"h " : "";
+                    String minutes = (timeDifference%60 > 0) ? timeDifference%60+"m" : "";
+                    flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN,
+                            "break " + hours + minutes));
                 }
                 flowPane.getChildren().add(createCourseText(section,section.getTimeDuration() * scaleCorrection, width));
                 previousSection = section;
 
             }
 
-            flowPane.setMaxHeight(800);
+            // flowPane.setMaxHeight(800);
             hBox.getChildren().add(flowPane);
 
         }
@@ -229,8 +224,10 @@ public class SecondScene {
             this.section = section;
         }
         public void handle(ActionEvent e) {
-            for(Section registeredSection : schedule.getSections().keySet()) {
-                if(registeredSection.getCourse_section().split("-")[0].equals(section.getCourse_section().split("-")[0])) {
+            for(Section registeredSection : schedule.getSections()) {
+                if(registeredSection.getCourse_section().split("-")[0].equals(section.getCourse_section().split("-")[0])
+                        && registeredSection.getActivity().equals(section.getActivity())) {
+
                     schedule.removeSection(registeredSection);
                     Boolean isAdd = schedule.addSectionToDays(section);
                     if(!isAdd) {

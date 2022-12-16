@@ -156,9 +156,7 @@ public class Section implements Comparable<Section>, Serializable {
     public int compareTo(Section o) {
         int time1 = Integer.parseInt(time.split("-")[0]);
         int time2 = Integer.parseInt(o.getTime().split("-")[0]);
-        if(time1 > time2) {return 1;}
-        else if(time1 == time2) {return 0;}
-        else {return -1;}
+        return Integer.compare(time1, time2);
     }
 }
 

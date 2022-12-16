@@ -103,7 +103,7 @@ public class Albaik_app extends Application {
                     secondScene.setSchedule(schedule);
 
                     Boolean check = false;
-                    for(Section section : schedule.getSections().keySet()) {
+                    for(Section section : schedule.getSections()) {
                         check = false;
                         for(Section basketSection : basket.getSections()){
                             if(section.getCRN().equals(basketSection.getCRN())) {
