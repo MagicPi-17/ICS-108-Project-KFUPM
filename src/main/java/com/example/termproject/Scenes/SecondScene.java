@@ -5,6 +5,7 @@ import com.example.termproject.classes.Schedule;
 import com.example.termproject.classes.Section;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -55,7 +56,7 @@ public class SecondScene {
     public void setSchedule(Schedule schedule) {this.schedule = schedule;}
 
     public Scene getSecondScene() {
-        HBox hBox = new HBox(1920 - 200 * 6 - 540);
+        HBox hBox = new HBox(179);
         HBox schedule = getSchedule();
         currentBasket = getBasket();
 
@@ -67,7 +68,7 @@ public class SecondScene {
     }
 
     public Scene updateSecondScene() {
-        HBox hBox = new HBox(1920 - 200 * 6 - 540);
+        HBox hBox = new HBox(179);
         HBox schedule = getSchedule();
 
         hBox.getChildren().add(schedule);
@@ -113,12 +114,12 @@ public class SecondScene {
 
     }
 
-    public StackPane createShapeWithText(Double height, Double width, Color color, String text) {
+    public StackPane createShapeWithText(Double height, Double width, Color color, String text, Double fontSize) {
         StackPane stackPane = new StackPane();
 
         Rectangle rectangle = new Rectangle(width, height, color); rectangle.setStroke(Color.BLACK);
         Label word = new Label(text);
-        word.setFont(Font.font(16));
+        word.setFont(Font.font(fontSize));
         stackPane.getChildren().addAll(rectangle, word);
 
         return stackPane;
@@ -166,7 +167,7 @@ public class SecondScene {
 
         VBox timeBoxes = new VBox();
         for(String time : times) {
-            timeBoxes.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,time));
+            timeBoxes.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,time, 20.0));
         }
 
         for(int i = 0; i < days.length; i++) {
@@ -174,14 +175,13 @@ public class SecondScene {
             FlowPane flowPane = new FlowPane();
             flowPane.setOrientation(Orientation.VERTICAL);
             flowPane.setVgap(0);
-            flowPane.getChildren().add(createShapeWithText(height, width, Color.LIGHTCORAL,days[i]));
+            flowPane.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,days[i], 20.0));
             for(Section section : sectionsByDay[i]) {
                 timeDifference = previousSection.getTimeDifference(section);
                 if (timeDifference > 0) {
                     String hours = (timeDifference/60 > 0) ? timeDifference/60+"h " : "";
                     String minutes = (timeDifference%60 > 0) ? timeDifference%60+"m" : "";
-                    flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN,
-                            "break " + hours + minutes));
+                    flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, hours + minutes, 16.0));
                 }
                 flowPane.getChildren().add(createCourseText(section,section.getTimeDuration() * scaleCorrection, width));
                 previousSection = section;

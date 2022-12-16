@@ -38,7 +38,7 @@ public class Section implements Comparable<Section>, Serializable {
         this.location = Location;
         this.status = status;
         this.waitlist = waitlist;
-        this.color = new Double[]{Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.6};
+        this.color = new Double[]{Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.55};
     }
 
     public static void main(String[] args) {
