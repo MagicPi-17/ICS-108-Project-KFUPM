@@ -54,6 +54,7 @@ public class SecondScene {
 
     public void setSchedule(Schedule schedule) {this.schedule = schedule;}
 
+    // create the second scene
     public Scene getSecondScene() {
         HBox hBox = new HBox(179);
         HBox schedule = getSchedule();
@@ -65,6 +66,7 @@ public class SecondScene {
         return new Scene(hBox, screenWidth, screenHeight);
     }
 
+    // update the second scene without changing basket
     public Scene updateSecondScene() {
         HBox hBox = new HBox(179);
         HBox schedule = getSchedule();
@@ -75,7 +77,7 @@ public class SecondScene {
         return new Scene(hBox, screenWidth, screenHeight);
     }
 
-
+    // creating basket Vbox that contains basket's sections
     public VBox getBasket(){
         VBox vBox = new VBox(10);
         HBox buttons = new HBox();
@@ -110,7 +112,7 @@ public class SecondScene {
         return vBox;
 
     }
-
+    // create stackPane with certain color and text
     public StackPane createShapeWithText(Double height, Double width, Color color, String text, Double fontSize) {
         StackPane stackPane = new StackPane();
 
@@ -122,7 +124,7 @@ public class SecondScene {
         return stackPane;
     }
 
-
+    // create a stackPane that contain label and rectangle and section info with certain dimensions
     public StackPane createCourseText(Section section,Double height, Double width) {
         StackPane stackPane = new StackPane();
         BorderPane borderPane = new BorderPane();
@@ -146,12 +148,13 @@ public class SecondScene {
 
         return stackPane;
     }
+    // create HBox that contain the schedule
     public HBox getSchedule() {
         String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"};
         String[] times = {"","7 am", "8 pm", "9 am", "10 am", "11 am", "12 pm",
                 "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"};
 
-
+        // adjusting dimensions
         double width = 200;
         double height = 975/12;
         double scaleCorrection = (height+0.5)/60;
@@ -161,13 +164,14 @@ public class SecondScene {
 
         HBox hBox = new HBox();
 
-
+        // setting the time VBox
         VBox timeBoxes = new VBox();
         for(String time : times) {
             timeBoxes.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,time, 20.0));
         }
 
         for(int i = 0; i < days.length; i++) {
+            // the day start at 7 am
             Section previousSection = new Section("day Start", "0700-0700");
             FlowPane flowPane = new FlowPane();
             flowPane.setOrientation(Orientation.VERTICAL);
@@ -175,11 +179,13 @@ public class SecondScene {
             flowPane.getChildren().add(createShapeWithText(height, width, Color.LIGHTGRAY,days[i], 20.0));
             for(Section section : sectionsByDay[i]) {
                 timeDifference = previousSection.getTimeDifference(section);
+                // add break between sections
                 if (timeDifference > 0) {
                     String hours = (timeDifference/60 > 0) ? timeDifference/60+"h " : "";
                     String minutes = (timeDifference%60 > 0) ? timeDifference%60+"m" : "";
                     flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, hours + minutes, 16.0));
                 }
+                // add section with correct height
                 flowPane.getChildren().add(createCourseText(section,section.getTimeDuration() * scaleCorrection, width));
                 previousSection = section;
 
@@ -190,16 +196,16 @@ public class SecondScene {
 
         }
 
-        HBox borderPanreMain = new HBox(0);
-        borderPanreMain.getChildren().add(timeBoxes);
-        borderPanreMain.getChildren().add(hBox);
+        HBox borderPaneMain = new HBox(0);
+        borderPaneMain.getChildren().add(timeBoxes);
+        borderPaneMain.getChildren().add(hBox);
 
 
-        return borderPanreMain;
+        return borderPaneMain;
 
 
     }
-
+    // handle to handle deleting sections from the schedule
     class deleteHandlerClass implements EventHandler<ActionEvent> {
         Section section;
 
@@ -214,6 +220,7 @@ public class SecondScene {
         }
     }
 
+    // Event handler that handle adding sections to schedule in the correct way
     class addHandlerClass implements EventHandler<ActionEvent> {
         Section section;
 

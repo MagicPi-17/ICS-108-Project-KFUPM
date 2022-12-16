@@ -11,6 +11,7 @@ public class CSVReader {
         this.file = new File(filePath);
     }
 
+    // get file data dimensions
     public int[] getFileRowLength() throws FileNotFoundException {
         int rowLength = 1;
         Scanner reader = new Scanner(file);
@@ -20,7 +21,7 @@ public class CSVReader {
         return new int[]{rowLength, columnLength};
      
     }
-    
+    // convert file data to 2d array and return it
     public String[][] readTo2DArray() throws FileNotFoundException{
         int[] Lengths = getFileRowLength();
         int rowLength = Lengths[0];

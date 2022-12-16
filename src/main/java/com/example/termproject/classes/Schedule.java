@@ -13,7 +13,6 @@ class SectionComparator implements Comparator<Section>, Serializable {
 }
 
 public class Schedule implements Serializable {
-
     ArrayList<Section> sections;
     String term;
 
@@ -26,7 +25,7 @@ public class Schedule implements Serializable {
     public ArrayList<Section> getSections() {return sections;}
 
 
-
+    // return 5 list that contain sections by days
     public ArrayList[] getScheduleByDays() {
         ArrayList[] sectionsByDays = new ArrayList[5];
         ArrayList<Section> sundaySections = new ArrayList<>();
@@ -54,7 +53,7 @@ public class Schedule implements Serializable {
 
         return  sectionsByDays;
     }
-
+    // add section if possible
     public boolean addSectionToDays(Section section) {
         if (checkTime(section)) {
             sections.add(section);

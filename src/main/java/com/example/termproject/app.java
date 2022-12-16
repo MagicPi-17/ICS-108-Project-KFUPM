@@ -86,16 +86,20 @@ public class app extends Application {
     public class ButtonHandler implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent actionEvent) {
+            // go to the scound scene
             if (actionEvent.getSource() == btNext) {
                 stage.setScene(secondScene.getSecondScene());
             }
 
+            // go to the first scene and the update buttons
             else if (actionEvent.getSource() == btPrevious) {
                 addButtons.clear();
                 removeButtons.clear();
                 setFirstScene();
                 firstScene.fixAddRemoveButtons(clickedButtonsIDs);
             }
+
+            // load schedule and update buttons and the basket section accordingly
             else if (actionEvent.getSource() == btLoadSchedule) {
                 try {
                     schedule = DataHandler.readSchedule(dataFileName);

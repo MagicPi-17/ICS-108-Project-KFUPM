@@ -9,6 +9,7 @@ import java.util.Collections;
 
 public class DataHandler {
 
+    // return student object that contain finished courses
     public static Student getStudentFinishedCourse() throws FileNotFoundException {
         Student newStudent = new Student();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/FinishedCourses.csv");
@@ -18,6 +19,7 @@ public class DataHandler {
         return newStudent;
     }
 
+    // return all course offering sections in a list
     public static ArrayList<Section> getCourseOffering() throws FileNotFoundException {
         ArrayList<Section> sections = new ArrayList<>();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/CourseOffering.csv");
@@ -28,6 +30,7 @@ public class DataHandler {
         return sections;
     }
 
+    // return a list of degree plan courses
     public static ArrayList<Course> getDegreePlanCourses() throws FileNotFoundException {
         ArrayList<Course> degreePlanCourses = new ArrayList<>();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/DegreePlan.csv");

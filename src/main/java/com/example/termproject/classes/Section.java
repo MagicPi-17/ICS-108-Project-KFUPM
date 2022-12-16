@@ -51,7 +51,7 @@ public class Section implements Comparable<Section>, Serializable {
 
         int dif1 = hoursBigGap * 60 + minutesBigGap;
         int dif2 = hoursSmallGap * 60 + minutesSmallGap;
-
+        // if both difference have the same sign this mean that there is no overlap
         int sameSignCheck = Integer.signum(dif1) * Integer.signum(dif2);
         if(sameSignCheck == 1 || sameSignCheck == 0) {
             return Math.min(Math.abs(dif1), Math.abs(dif2));
@@ -59,6 +59,7 @@ public class Section implements Comparable<Section>, Serializable {
         else {return -1;}
     }
 
+    // return section time duration
     public double getTimeDuration() {
         String[] times = time.split("-");
 
@@ -135,7 +136,7 @@ public class Section implements Comparable<Section>, Serializable {
     public Section(String[] data) {
         this(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]);
     }
-
+    // compare to sort the sections by time
     @Override
     public int compareTo(Section o) {
         int time1 = Integer.parseInt(time.split("-")[0]);
