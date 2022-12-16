@@ -18,15 +18,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FirstScene {
-    private ArrayList<Button> addButtons;
-    private ArrayList<Button> removeButtons;
     private Basket myBasket;
     private ArrayList<Section> filtrated;
     public final int stageWidth = 1920;
     private Button nextButton;
     private Button loadScheduleButton;
-    private ArrayList<String> clickedButtonsIDs = new ArrayList<>();
-    private HashMap<String, Integer> sectionsIndexes = new HashMap<>();
+    private ArrayList<Button> addButtons;
+    private ArrayList<Button> removeButtons;
+    private ArrayList<String> clickedButtonsIDs;
+    private HashMap<String, Integer> sectionsIndexes;
+
 
 
     public FirstScene(Button next, Button load, Basket basket, ArrayList<Button> addButtons, ArrayList<Button> removeButtons, ArrayList<String> clickedButtonsIDs, HashMap<String, Integer> sectionsIndexes) {
@@ -40,7 +41,7 @@ public class FirstScene {
         this.sectionsIndexes = sectionsIndexes;
     }
 
-    public HBox getDataInGridPane() throws IOException{ //This method get the data and put them in a gridPane
+    public HBox getDataInGridPane() { //This method get the data and put them in a gridPane
         HBox finalPane = new HBox();
         finalPane.setPrefWidth(stageWidth);
         finalPane.setAlignment(Pos.BASELINE_CENTER);
@@ -185,7 +186,6 @@ public class FirstScene {
         }
         return filtrated;
     }
-
 
 
 
