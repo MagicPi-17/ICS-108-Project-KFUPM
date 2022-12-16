@@ -120,6 +120,7 @@ public class SecondScene {
         Label word = new Label(text);
         word.setFont(Font.font(fontSize));
         stackPane.getChildren().addAll(rectangle, word);
+        stackPane.setMinHeight(5);
 
         return stackPane;
     }
@@ -145,6 +146,7 @@ public class SecondScene {
         borderPane.setCenter(word);
 
         stackPane.getChildren().addAll(rectangle, borderPane);
+        stackPane.setMinHeight(5);
 
         return stackPane;
     }
@@ -156,7 +158,7 @@ public class SecondScene {
 
         // adjusting dimensions
         double width = 200;
-        double height = 975/12;
+        double height = 990/12;
         double scaleCorrection = (height+0.5)/60;
 
         ArrayList<Section>[] sectionsByDay = schedule.getScheduleByDays();
@@ -183,7 +185,10 @@ public class SecondScene {
                 if (timeDifference > 0) {
                     String hours = (timeDifference/60 > 0) ? timeDifference/60+"h " : "";
                     String minutes = (timeDifference%60 > 0) ? timeDifference%60+"m" : "";
-                    flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, hours + minutes, 16.0));
+                    if(timeDifference <= 10)
+                        flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, hours + minutes, 12.0));
+                    else
+                        flowPane.getChildren().add(createShapeWithText((double)timeDifference * scaleCorrection, width, Color.LIGHTCYAN, hours + minutes, 16.0));
                 }
                 // add section with correct height
                 flowPane.getChildren().add(createCourseText(section,section.getTimeDuration() * scaleCorrection, width));

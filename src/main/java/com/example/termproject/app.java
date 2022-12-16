@@ -88,7 +88,20 @@ public class app extends Application {
         public void handle(ActionEvent actionEvent) {
             // go to the scound scene
             if (actionEvent.getSource() == btNext) {
+                // make sure that all secctions in the schedule are in the basket
+                boolean check = false;
+                for(Section section : schedule.getSections()) {
+                    check = false;
+                    for(Section basketSection : basket.getSections()){
+                        if(section.getCRN().equals(basketSection.getCRN())) {
+                            check = true;
+                            break;
+                        }
+                    }
+                    if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
+                }
                 stage.setScene(secondScene.getSecondScene());
+
             }
 
             // go to the first scene and the update buttons
@@ -105,7 +118,7 @@ public class app extends Application {
                     schedule = DataHandler.readSchedule(dataFileName);
                     secondScene.setSchedule(schedule);
 
-                    Boolean check = false;
+                    boolean check = false;
                     for(Section section : schedule.getSections()) {
                         check = false;
                         for(Section basketSection : basket.getSections()){
