@@ -12,6 +12,7 @@ public class DataHandler {
     public static Student getStudentFinishedCourse() throws FileNotFoundException {
         Student newStudent = new Student();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/FinishedCourses.csv");
+        int credits = 0;
         for (String[] finishedCourseData : cvsReader.readTo2DArray()) {
             newStudent.addFinishedCourse(finishedCourseData);
         }
@@ -49,22 +50,45 @@ public class DataHandler {
         ArrayList<Section> sections = DataHandler.getCourseOffering();
 
         ArrayList<Course> degreePlanCourses = DataHandler.getDegreePlanCourses();
+        int studentCreditHours = 0;
+        for(Course course : degreePlanCourses) {
+            for(String finishedCourse : finishedCourses) {
+                if(finishedCourse.equals(course.getCourse())) {
+                    studentCreditHours += Integer.parseInt(course.getCreditHours());
+                }
+            }
+        }
         Collections.sort(degreePlanCourses);
 
         ArrayList<String> allowedCourses = new ArrayList<String>();
 
-        String courseName, coursePrerequisite, courseSecName;
-
+        String courseName, coursePrerequisites, courseSecName;
+        boolean isAllowedCourse = true;
+        int standingLevel = 0;
 
         for (Course course : degreePlanCourses) {
-            coursePrerequisite = course.getPrerequisite();
+            coursePrerequisites = course.getPrerequisite();
             courseName = course.getCourse();
-
-            if (Arrays.binarySearch(finishedCourses, courseName) < 0) {
-                if (coursePrerequisite.equals("None") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0) {
-                    allowedCourses.add(courseName);
+            isAllowedCourse = true;
+            for(String coursePrerequisite : coursePrerequisites.split(";")) {
+                if (coursePrerequisite.startsWith("Sophomore")) {
+                    standingLevel = 31;
+                } else if (coursePrerequisite.startsWith("Junior")) {
+                    standingLevel = 63;
+                } else if (coursePrerequisite.startsWith("Senior")) {
+                    standingLevel = 97;
                 }
+
+                if (Arrays.binarySearch(finishedCourses, courseName) < 0 && studentCreditHours >= standingLevel) {
+                    if (!(coursePrerequisite.equals("None") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0)) {
+                        isAllowedCourse = false;
+                    }
+                }
+                else {
+                    isAllowedCourse = false;}
             }
+
+            if(isAllowedCourse) allowedCourses.add(courseName);
 
         }
 

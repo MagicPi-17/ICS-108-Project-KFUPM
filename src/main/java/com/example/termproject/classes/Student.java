@@ -4,24 +4,20 @@ import java.util.Collections;
 
 public class Student {
     private ArrayList<FinishedCourse> finishedCourses;
+    private String standing;
+
+    public Student() {
+        this.finishedCourses = new ArrayList<>();
+
+    }
+    Student(ArrayList<FinishedCourse> finishedCourses) {
+        this.finishedCourses = finishedCourses;
+    }
 
     public ArrayList<FinishedCourse> getFinishedCourses() {
         return finishedCourses;
     }
 
-    public ArrayList<Integer> getTermsSorted() {
-        ArrayList<Integer> terms = new ArrayList<Integer>();
-
-        finishedCourses.forEach(finishedCourse -> {
-            int term = Integer.parseInt(finishedCourse.getTerm());
-            if (Collections.binarySearch(terms, term) < 0) {
-                terms.add(term);
-            }
-        });
-
-        Collections.sort(terms);
-        return terms;
-    }
 
     public String getStringFinishedCourse(int index) {
         return finishedCourses.get(index).toString();
@@ -60,13 +56,7 @@ public class Student {
         this.finishedCourses.remove(index);
     }
 
-    public Student() {
-        this.finishedCourses = new ArrayList<FinishedCourse>();
-    }
 
-    Student(ArrayList<FinishedCourse> finishedCourses) {
-        this.finishedCourses = finishedCourses;
-    }
 }
 
 
