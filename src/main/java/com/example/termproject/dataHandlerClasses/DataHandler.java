@@ -61,7 +61,7 @@ public class DataHandler {
             courseName = course.getCourse();
 
             if (Arrays.binarySearch(finishedCourses, courseName) < 0) {
-                if (coursePrerequisite.equals("none") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0) {
+                if (coursePrerequisite.equals("None") || Arrays.binarySearch(finishedCourses, coursePrerequisite) >= 0) {
                     allowedCourses.add(courseName);
                 }
             }

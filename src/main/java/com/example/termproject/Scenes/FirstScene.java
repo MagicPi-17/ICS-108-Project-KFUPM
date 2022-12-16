@@ -73,7 +73,7 @@ public class FirstScene {
         GridPane grid = new GridPane();
         for (int i = 0; i < filtiredIn2D.length; i++) {
             for (int j = 0; j < filtiredIn2D[i].length; j++) {
-                Label info = new Label(filtiredIn2D[i][j] + "         ");
+                Label info = new Label(filtiredIn2D[i][j] + "       ");
                 info.setFont(Font.font ("Verdana", 16));
                 info.setPadding(new Insets(15, 0, 0, 0));
                 HBox infoPane = new HBox(); //To the data in their boxes
