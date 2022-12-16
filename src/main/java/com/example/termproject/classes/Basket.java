@@ -15,7 +15,11 @@ public class Basket {
     }
 
     public void removeSection(Section section, int indexOfButton, ArrayList<Button> removeButtons, ArrayList<Button> addButtons, ArrayList<String> clickedButtonsIDs) { //removing the section enables the add button and disables the remove button
-        sections.remove(section);
+        for (int i = 0; i<sections.size(); i++) {
+            if (section.getCRN().equals(sections.get(i).getCRN())) {
+                sections.remove(sections.get(i));
+            }
+        }
         removeButtons.get(indexOfButton).setDisable(true);
         addButtons.get(indexOfButton).setDisable(false);
         clickedButtonsIDs.remove(Integer.toString(indexOfButton));

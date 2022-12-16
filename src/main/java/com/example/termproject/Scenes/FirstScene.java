@@ -166,9 +166,6 @@ public class FirstScene {
     }
 
 
-    public ArrayList<Section> getBasketSections() { //To give the Basket to the second scene
-        return this.myBasket.getSections();
-    }
 
     public void fixAddRemoveButtons(ArrayList<String> arr) {
         for (int i = 0; i<arr.size(); i++) {
