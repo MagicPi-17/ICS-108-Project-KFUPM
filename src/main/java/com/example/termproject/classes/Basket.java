@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import java.util.ArrayList;
 
 public class Basket {
-    private ArrayList<Section> sections = new ArrayList<>();
+    private final ArrayList<Section> sections = new ArrayList<>();
 
     public void addSection(Section section, int indexOfButton, ArrayList<Button> removeButtons, ArrayList<Button> addButtons, ArrayList<String> clickedButtonsIDs) { //adding the section disables the add button and enables the remove button
         sections.add(section);

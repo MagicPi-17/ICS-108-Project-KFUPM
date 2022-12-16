@@ -122,16 +122,6 @@ public class DataHandler {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            ArrayList<Section> sections = getAllowedSections();
-            for(Section section : sections) {
-                System.out.println(section.toString());
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }
 

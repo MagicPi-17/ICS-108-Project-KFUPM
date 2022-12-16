@@ -34,15 +34,6 @@ public class Section implements Comparable<Section>, Serializable {
         this.color = new Double[]{Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.7, Math.random() * 0.55};
     }
 
-    public static void main(String[] args) {
-        Section s1 = new Section("s1","7000-7000");
-        Section s2 = new Section("s2", "7000-7500");
-
-        int result = s1.getTimeDifference(s2);
-        System.out.println(result);
-    }
-
-
     // this function return the time between two section and if they two time wrong the function return -1
     public int getTimeDifference(Section section) {
         String[] times2 = time.split("-");

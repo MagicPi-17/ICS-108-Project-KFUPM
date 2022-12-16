@@ -1,9 +1,9 @@
 package com.example.termproject.classes;
 
 public class FinishedCourse {
-    private String course;
-    private String term;
-    private String grade;
+    private final String course;
+    private final String term;
+    private final String grade;
 
     public String getCourse() {
         return course;
