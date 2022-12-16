@@ -1,7 +1,4 @@
 package com.example.termproject.classes;
-import com.example.termproject.dataHandlerClasses.DataHandler;
-
-import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -21,25 +18,24 @@ public class Schedule implements Serializable {
     String term;
 
     public Schedule(String term) {
-        sections = new ArrayList<Section>();
+        sections = new ArrayList<>();
         this.term = term;}
 
 
-    public String getTerm() {return term;}
 
     public ArrayList<Section> getSections() {return sections;}
 
 
 
-    public ArrayList<Section>[] getScheduleByDays() {
-        ArrayList<Section>[] sectionsByDays = new ArrayList[5];
+    public ArrayList[] getScheduleByDays() {
+        ArrayList[] sectionsByDays = new ArrayList[5];
         ArrayList<Section> sundaySections = new ArrayList<>();
         ArrayList<Section> mondaySections = new ArrayList<>();
         ArrayList<Section> tuesSections = new ArrayList<>();
         ArrayList<Section> wednesdaySections = new ArrayList<>();
         ArrayList<Section> thursSections = new ArrayList<>();
 
-        Collections.sort(sections, new SectionComparator());
+        sections.sort(new SectionComparator());
         for(Section section : sections) {
             for(Character day : section.getDays().toCharArray()) {
                 if(day.equals('U')) sundaySections.add(section);

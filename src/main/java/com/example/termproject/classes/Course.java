@@ -1,12 +1,10 @@
 package com.example.termproject.classes;
 
-import java.util.Comparator;
-
 public class Course implements Comparable<Course>{
-    private String course;
-    private String creditHours;
-    private String prerequisite;
-    private String corequisite;
+    private final String course;
+    private final String creditHours;
+    private final String prerequisite;
+    private final String corequisite;
 
     public String getCourse() { return course;}
     public String getCreditHours() { return creditHours;}

@@ -5,7 +5,6 @@ import com.example.termproject.classes.Schedule;
 import com.example.termproject.classes.Section;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -22,12 +21,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SecondScene {
-    private Button btPrevious;
-    private Button btSaveSchedule;
+    private final Button btPrevious;
+    private final Button btSaveSchedule;
     private Schedule schedule;
-    private Basket basket;
-    private Stage stage;
-    private HashMap<String, Button> sectionsButtons;
+    private final Basket basket;
+    private final Stage stage;
+    private final HashMap<String, Button> sectionsButtons;
     private HashMap<String, Integer> sectionsIndexes;
     private ArrayList<Button> addButtons = new ArrayList<>();
     private ArrayList<Button> removeButtons = new ArrayList<>();
@@ -63,8 +62,7 @@ public class SecondScene {
         hBox.getChildren().add(schedule);
         hBox.getChildren().add(currentBasket);
 
-        Scene scene = new Scene(hBox, screenWidth, screenHeight);
-        return scene;
+        return new Scene(hBox, screenWidth, screenHeight);
     }
 
     public Scene updateSecondScene() {
@@ -74,8 +72,7 @@ public class SecondScene {
         hBox.getChildren().add(schedule);
         hBox.getChildren().add(currentBasket);
 
-        Scene scene = new Scene(hBox, screenWidth, screenHeight);
-        return scene;
+        return new Scene(hBox, screenWidth, screenHeight);
     }
 
 
@@ -229,7 +226,7 @@ public class SecondScene {
                         && registeredSection.getActivity().equals(section.getActivity())) {
 
                     schedule.removeSection(registeredSection);
-                    Boolean isAdd = schedule.addSectionToDays(section);
+                    boolean isAdd = schedule.addSectionToDays(section);
                     if(!isAdd) {
                         schedule.addSectionToDays(registeredSection);
                     }
@@ -242,7 +239,7 @@ public class SecondScene {
 
                 }
             }
-            Boolean isAdd = schedule.addSectionToDays(section);
+            boolean isAdd = schedule.addSectionToDays(section);
             if (isAdd) { sectionsButtons.get(section.getCourse_section()).setDisable(true); }
             stage.setScene(updateSecondScene());
 

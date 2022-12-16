@@ -12,7 +12,6 @@ public class DataHandler {
     public static Student getStudentFinishedCourse() throws FileNotFoundException {
         Student newStudent = new Student();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/FinishedCourses.csv");
-        int credits = 0;
         for (String[] finishedCourseData : cvsReader.readTo2DArray()) {
             newStudent.addFinishedCourse(finishedCourseData);
         }
@@ -20,7 +19,7 @@ public class DataHandler {
     }
 
     public static ArrayList<Section> getCourseOffering() throws FileNotFoundException {
-        ArrayList<Section> sections = new ArrayList<Section>();
+        ArrayList<Section> sections = new ArrayList<>();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/CourseOffering.csv");
         for (String[] section : cvsReader.readTo2DArray()) {
             sections.add(new Section(section));
@@ -30,7 +29,7 @@ public class DataHandler {
     }
 
     public static ArrayList<Course> getDegreePlanCourses() throws FileNotFoundException {
-        ArrayList<Course> degreePlanCourses = new ArrayList<Course>();
+        ArrayList<Course> degreePlanCourses = new ArrayList<>();
         CSVReader cvsReader = new CSVReader("src/main/java/com/example/termproject/data/DegreePlan.csv");
         for (String[] course : cvsReader.readTo2DArray()) {
             degreePlanCourses.add(new Course(course));
@@ -41,7 +40,7 @@ public class DataHandler {
 
     // this method return all the sections that the student can add
     public static ArrayList<Section> getAllowedSections() throws FileNotFoundException {
-        ArrayList<Section> allowedSections = new ArrayList<Section>();
+        ArrayList<Section> allowedSections = new ArrayList<>();
 
         Student student = DataHandler.getStudentFinishedCourse();
         String[] finishedCourses = student.getFinishedCoursesNames();
@@ -60,10 +59,10 @@ public class DataHandler {
         }
         Collections.sort(degreePlanCourses);
 
-        ArrayList<String> allowedCourses = new ArrayList<String>();
+        ArrayList<String> allowedCourses = new ArrayList<>();
 
         String courseName, coursePrerequisites, courseSecName;
-        boolean isAllowedCourse = true;
+        boolean isAllowedCourse;
         int standingLevel = 0;
 
         for (Course course : degreePlanCourses) {

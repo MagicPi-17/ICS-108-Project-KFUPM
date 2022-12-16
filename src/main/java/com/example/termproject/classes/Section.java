@@ -1,11 +1,4 @@
 package com.example.termproject.classes;
-
-
-// Course-Sec,Activity,CRN,Course Name,Instructor,Day,Time,Location,Status,Waitlist
-
-
-import javafx.scene.paint.Color;
-
 import java.io.Serializable;
 
 public class Section implements Comparable<Section>, Serializable {
@@ -55,10 +48,10 @@ public class Section implements Comparable<Section>, Serializable {
         String[] times2 = time.split("-");
         String[] times1 = section.getTime().split("-");
 
-        int startTime1 = Integer.valueOf(times1[0]);
-        int startTime2 = Integer.valueOf(times2[0]);
-        int endTime1 = Integer.valueOf(times1[1]);
-        int endTime2 = Integer.valueOf(times2[1]);
+        int startTime1 = Integer.parseInt(times1[0]);
+        int startTime2 = Integer.parseInt(times2[0]);
+        int endTime1 = Integer.parseInt(times1[1]);
+        int endTime2 = Integer.parseInt(times2[1]);
 
         int hoursBigGap = (endTime2/100) - (startTime1/100);
         int hoursSmallGap = (startTime2/100) - (endTime1/100);
@@ -70,7 +63,7 @@ public class Section implements Comparable<Section>, Serializable {
 
         int sameSignCheck = Integer.signum(dif1) * Integer.signum(dif2);
         if(sameSignCheck == 1 || sameSignCheck == 0) {
-            return (Math.abs(dif1) > Math.abs(dif2)) ? Math.abs(dif2): Math.abs(dif1);
+            return Math.min(Math.abs(dif1), Math.abs(dif2));
         }
         else {return -1;}
     }
@@ -78,8 +71,8 @@ public class Section implements Comparable<Section>, Serializable {
     public double getTimeDuration() {
         String[] times = time.split("-");
 
-        int startTime = Integer.valueOf(times[0]);
-        int endTime = Integer.valueOf(times[1]);
+        int startTime = Integer.parseInt(times[0]);
+        int endTime = Integer.parseInt(times[1]);
         int hoursDiff = (endTime/100) - (startTime/100);
         int minutesDiff = (endTime % 100) - (startTime % 100);
         return hoursDiff * 60 + minutesDiff;
