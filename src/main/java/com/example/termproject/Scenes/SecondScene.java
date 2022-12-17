@@ -121,6 +121,7 @@ public class SecondScene {
         word.setFont(Font.font(fontSize));
         stackPane.getChildren().addAll(rectangle, word);
         stackPane.setMinHeight(5);
+        stackPane.setMaxHeight(height);
 
         return stackPane;
     }
@@ -147,6 +148,7 @@ public class SecondScene {
 
         stackPane.getChildren().addAll(rectangle, borderPane);
         stackPane.setMinHeight(5);
+        stackPane.setMaxHeight(height);
 
         return stackPane;
     }
@@ -159,7 +161,7 @@ public class SecondScene {
         // adjusting dimensions
         double width = 200;
         double height = 990/12;
-        double scaleCorrection = (height+0.5)/60;
+        double scaleCorrection = (height)/60;
 
         ArrayList<Section>[] sectionsByDay = schedule.getScheduleByDays();
         int timeDifference;
