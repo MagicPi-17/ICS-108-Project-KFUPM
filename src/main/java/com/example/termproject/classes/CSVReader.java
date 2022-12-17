@@ -15,6 +15,7 @@ public class CSVReader {
     public int[] getFileRowLength() throws FileNotFoundException {
         int rowLength = 1;
         Scanner reader = new Scanner(file);
+        if(!reader.hasNext()) { return new int[]{0, 0};}
         int columnLength = reader.nextLine().split(",").length;
         while (reader.hasNext()) {reader.nextLine(); rowLength++;}
         reader.close();
