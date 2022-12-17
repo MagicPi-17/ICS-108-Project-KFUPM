@@ -93,12 +93,12 @@ public class app extends Application {
                 for(Section section : schedule.getSections()) {
                     check = false;
                     for(Section basketSection : basket.getSections()){
-                        if(section.getCRN().equals(basketSection.getCRN())) {
+                        if((section.getCRN()+section.getActivity()).equals(basketSection.getCRN()+basketSection.getActivity())) {
                             check = true;
                             break;
                         }
                     }
-                    if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
+                    if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()+section.getActivity()), removeButtons, addButtons, clickedButtonsIDs);
                 }
                 stage.setScene(secondScene.getSecondScene());
 
@@ -122,12 +122,12 @@ public class app extends Application {
                     for(Section section : schedule.getSections()) {
                         check = false;
                         for(Section basketSection : basket.getSections()){
-                            if(section.getCRN().equals(basketSection.getCRN())) {
+                            if((section.getCRN()+section.getActivity()).equals(basketSection.getCRN()+basketSection.getActivity())) {
                                 check = true;
                                 break;
                             }
                         }
-                        if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()), removeButtons, addButtons, clickedButtonsIDs);
+                        if(!check) basket.addSection(section, sectionsIndexes.get(section.getCRN()+section.getActivity()), removeButtons, addButtons, clickedButtonsIDs);
                     }
                     addButtons.clear();
                     removeButtons.clear();

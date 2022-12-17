@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class SecondScene {
@@ -87,6 +88,7 @@ public class SecondScene {
 
 
         VBox sections = new VBox();
+
         for(Section section : basket.getSections()) {
             Button sectionBtn = new Button(section.getScheduleText());
             sectionBtn.setFont(Font.font ("Verdana", 15));
@@ -94,11 +96,16 @@ public class SecondScene {
             sectionBtn.setOnAction(new addHandlerClass(section));
             sections.getChildren().add(sectionBtn);
 
-            sectionsButtons.put(section.getCourse_section(), sectionBtn);
+            sectionsButtons.put(section.getCourse_section()+" "+section.getActivity(), sectionBtn);
+        }
+
+        for(String section : sectionsButtons.keySet()) {
+            System.out.println(section + " debug");
         }
 
         for(Section section : schedule.getSections()) {
-            sectionsButtons.get(section.getCourse_section()).setDisable(true);
+            System.out.println(section.getCourse_section() + " " + section.getActivity() + " check");
+            sectionsButtons.get(section.getCourse_section()+" "+section.getActivity()).setDisable(true);
         }
 
         BorderPane borderPane = new BorderPane(sections);
@@ -221,7 +228,7 @@ public class SecondScene {
         }
         public void handle(ActionEvent e) {
             schedule.removeSection(section);
-            sectionsButtons.get(section.getCourse_section()).setDisable(false);
+            sectionsButtons.get(section.getCourse_section()+" "+section.getActivity()).setDisable(false);
             stage.setScene(updateSecondScene());
 
         }
@@ -245,8 +252,8 @@ public class SecondScene {
                         schedule.addSectionToDays(registeredSection);
                     }
                     else {
-                    sectionsButtons.get(section.getCourse_section()).setDisable(true);
-                    sectionsButtons.get(registeredSection.getCourse_section()).setDisable(false);
+                    sectionsButtons.get(section.getCourse_section()+" "+section.getActivity()).setDisable(true);
+                    sectionsButtons.get(registeredSection.getCourse_section()+" "+registeredSection.getActivity()).setDisable(false);
                     }
                     stage.setScene(updateSecondScene());
                     return;
@@ -254,7 +261,7 @@ public class SecondScene {
                 }
             }
             boolean isAdd = schedule.addSectionToDays(section);
-            if (isAdd) { sectionsButtons.get(section.getCourse_section()).setDisable(true); }
+            if (isAdd) { sectionsButtons.get(section.getCourse_section()+" "+section.getActivity()).setDisable(true); }
             stage.setScene(updateSecondScene());
 
         }

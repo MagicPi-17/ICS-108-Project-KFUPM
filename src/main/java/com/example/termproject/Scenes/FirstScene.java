@@ -68,7 +68,7 @@ public class FirstScene {
             filtiredIn2D[i + 1][8] = filtrated.get(i).getStatus();
             filtiredIn2D[i + 1][9] = filtrated.get(i).getWaitlist();
 
-            sectionsIndexes.put(filtrated.get(i).getCRN(), i);
+            sectionsIndexes.put(filtrated.get(i).getCRN()+filtrated.get(i).getActivity(), i);
         }
 
         GridPane grid = new GridPane();
