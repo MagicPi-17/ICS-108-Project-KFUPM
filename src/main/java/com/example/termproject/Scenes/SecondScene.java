@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class SecondScene {
@@ -89,6 +90,14 @@ public class SecondScene {
 
         VBox sections = new VBox();
 
+
+        Collections.sort(basket.getSections(), new Comparator<Section>() {
+            @Override
+            public int compare(Section o1, Section o2) {
+                return (o1.getCourse_section() + " " + o1.getActivity()).compareTo(o2.getCourse_section() + " " + o2.getActivity());
+            }});
+
+
         for(Section section : basket.getSections()) {
             Button sectionBtn = new Button(section.getScheduleText());
             sectionBtn.setFont(Font.font ("Verdana", 15));
@@ -99,12 +108,9 @@ public class SecondScene {
             sectionsButtons.put(section.getCourse_section()+" "+section.getActivity(), sectionBtn);
         }
 
-        for(String section : sectionsButtons.keySet()) {
-            System.out.println(section + " debug");
-        }
+
 
         for(Section section : schedule.getSections()) {
-            System.out.println(section.getCourse_section() + " " + section.getActivity() + " check");
             sectionsButtons.get(section.getCourse_section()+" "+section.getActivity()).setDisable(true);
         }
 
